@@ -2,7 +2,6 @@ import Airing from "./Airing";
 import AnimeCard from "./CardLayout/AnimeCard";
 import Error from "./Error";
 import Loader from "./Loader";
-import Movies from "./Movies";
 import Navbar from "./Navbar";
 import PlayPause from "./PlayPause";
 import Popular from "./Popular";
@@ -16,7 +15,8 @@ import DisplayCard from "./CardLayout/DisplayCard";
 import Completed from "./Completed";
 import Favorite from "./Favorite";
 import CardContainer from "./CardLayout/CardContainer";
-import Pagination from "./Pagination";
+import WatchPagination from "./Pagination/WatchPagination";
+import PagePagination from "./Pagination/PagePagination";
 import Dropdown from "./Dropdown";
 import Common from "./Common";
 import TopCardContainer from "./CardLayout/TopCardContainer";
@@ -24,7 +24,8 @@ import TopCardContainer from "./CardLayout/TopCardContainer";
 export {
   CardContainer,
   Common,
-  Pagination,
+  WatchPagination,
+  PagePagination,
   Dropdown,
   Airing,
   Completed,
@@ -32,7 +33,6 @@ export {
   AnimeCard,
   Error,
   Loader,
-  Movies,
   Navbar,
   PlayPause,
   Popular,

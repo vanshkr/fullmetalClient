@@ -27,6 +27,40 @@
 .wrapper-sidebar.active {
   left: 0;
 }
+.page-item {
+  margin: 0 5px;
+}
+
+.page-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border: 1px solid #2a2c31;
+  border-radius: 40px;
+  text-decoration: none;
+  color: white;
+}
+
+.page-link:hover {
+  color: #cae962;
+}
+
+.active .page-link {
+  background-color: #cae962;
+  color: #2a2c31;
+  font-weight: bold;
+}
+
+.break-me {
+  margin: 0 5px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}
 
 @media screen and (min-width: 768px) {
   .swiperTrending {

@@ -1,11 +1,11 @@
-import { useGetLimitedTopAnimeByTypeQuery } from "../redux/services/jikanApi";
+import { useGetTopAnimeByTypeQuery } from "../redux/services/jikanApi";
 import DisplayCard from "./CardLayout/DisplayCard";
 import { useLocation } from "react-router-dom";
 import { useEffect } from "react";
 
 const Airing = () => {
   const { data, error, isFetching, promise, refetch } =
-    useGetLimitedTopAnimeByTypeQuery(["airing", 5], {
+    useGetTopAnimeByTypeQuery(["airing", 1, 5], {
       skip: false,
     });
   const location = useLocation();

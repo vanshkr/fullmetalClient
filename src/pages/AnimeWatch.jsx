@@ -4,7 +4,7 @@ import {
   useGetActorsDetailsQuery,
 } from "../redux/services/jikanApi";
 import { Common } from "../components";
-import { Pagination } from "../components";
+import { WatchPagination } from "../components";
 
 import useRelatedArr from "../customhooks/useRelatedArr";
 
@@ -93,7 +93,7 @@ const AnimeWatch = () => {
           <div className='grid text-white relative '>
             <div className='bg-cursedBlack xl:m-14 relative  min-h-[540px] grid xl:grid-cols-12'>
               <div className='bg-stretchLimo xl:order-1 order-2 xl:col-span-3'>
-                <Pagination
+                <WatchPagination
                   data={result}
                   onPageChange={handlePageChange}
                   onEpisodeChange={handleEpsiodeChange}

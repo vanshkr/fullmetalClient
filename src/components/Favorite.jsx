@@ -1,11 +1,11 @@
 import DisplayCard from "./CardLayout/DisplayCard";
 import { useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { useGetLimitedTopAnimeByTypeQuery } from "../redux/services/jikanApi";
+import { useGetTopAnimeByTypeQuery } from "../redux/services/jikanApi";
 
 const Favorite = () => {
-  const { data, error, isFetching, refetch } = useGetLimitedTopAnimeByTypeQuery(
-    ["favorite", 5],
+  const { data, error, isFetching, refetch } = useGetTopAnimeByTypeQuery(
+    ["favorite", 1, 5],
     {
       skip: false,
     }

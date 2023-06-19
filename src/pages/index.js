@@ -6,6 +6,12 @@ import Search from "./Search";
 import MostPopular from "./MostPopular";
 import TopAiring from "./TopAiring";
 import AnimeWatch from "./AnimeWatch";
+import Movies from "./Movies";
+import Ona from "./Ona";
+import Ova from "./Ova";
+import Specials from "./Specials";
+import Upcoming from "./Upcoming";
+import MostFavorite from "./MostFavorite";
 export {
   AnimeDetails,
   AnimeMovies,
@@ -15,4 +21,10 @@ export {
   TopAiring,
   Genres,
   AnimeWatch,
+  Movies,
+  MostFavorite,
+  Ona,
+  Ova,
+  Specials,
+  Upcoming,
 };

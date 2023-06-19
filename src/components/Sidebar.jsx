@@ -1,27 +1,38 @@
-import { AiOutlineMenu, AiOutlineClose } from "react-icons/ai";
+import {
+  AiOutlineMenu,
+  AiOutlineClose,
+  AiTwotoneCustomerService,
+} from "react-icons/ai";
 import { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 import "./styles.css";
-// import { links } from "../assets/constants";
+import { useLocation } from "react-router-dom";
 
 const Sidebar = () => {
   const [sidebar, setSidebar] = useState(false);
+  const [visible, setVisiblie] = useState(false);
+  const location = useLocation()?.pathname;
+  console.log(location);
+
   const arr = [
-    "Home",
-    "Subbed Anime",
-    "Dubbed Anime",
-    "Most Popular",
-    "Movies",
-    "TV Series",
-    "OVAs",
-    "ONAs",
-    "Specials",
-    "Events",
-    "Genre",
+    ["Home", "/"],
+    ["Movies", "/movie"],
+    ["TV Series"],
+    ["OVAs", "/ova"],
+    ["ONAs", "/ona"],
+    ["Specials", "/special"],
+    ["Genre"],
+  ];
+  const tvSeriesOptions = [
+    ["Airing", "/airing"],
+    ["Upcoming", "/upcoming"],
+    ["Popular", "/popular"],
+    ["Favorite", "/favorite"],
   ];
   const ref = useRef(null);
   const handleClick = () => {
     setSidebar((currentValue) => !currentValue);
+    setVisiblie(false);
   };
   useEffect(() => {
     function handleClickOutside(event) {
@@ -35,7 +46,11 @@ const Sidebar = () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
-
+  const handleItemShow = (item) => {
+    if (item === "TV Series") {
+      setVisiblie((visible) => !visible);
+    }
+  };
   return (
     <div className='wrapper'>
       <div onClick={handleClick}>
@@ -49,13 +64,38 @@ const Sidebar = () => {
           <ul className='mt-3 flex flex-wrap'>
             {arr.map((item) => {
               return (
-                <li className='text-lg block w-full border-b border-blackRibbon'>
+                <li
+                  className='text-lg block w-full border-b border-blackRibbon'
+                  onClick={() => {
+                    handleItemShow(item[0]);
+                    if (item[0] !== "TV Series") handleClick();
+                  }}
+                >
                   <Link
                     className='block p-3.5 font-semibold relative hover:text-chineseGreen cursor-pointer'
-                    to={"#"}
+                    to={`${item[0] !== "TV Series" ? item[1] : `${location}`}`}
                   >
-                    {item}
+                    {item[0]}
                   </Link>
+                  {visible === true && item[0] === "TV Series" && (
+                    <ul className='mt-3 flex flex-wrap text-lilacChampagne'>
+                      {tvSeriesOptions.map((item) => {
+                        return (
+                          <li
+                            className='text-md  block w-full border-b border-blackRibbon ml-5'
+                            onClick={handleClick}
+                          >
+                            <Link
+                              className='block p-3.5 font-semibold relative hover:text-chineseGreen cursor-pointer'
+                              to={`${item[1]}`}
+                            >
+                              {item[0]}
+                            </Link>
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  )}
                 </li>
               );
             })}

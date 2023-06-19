@@ -8,6 +8,12 @@ import {
   TopAiring,
   Search,
   AnimeWatch,
+  Movies,
+  Ova,
+  Ona,
+  Specials,
+  MostFavorite,
+  Upcoming,
 } from "./pages";
 import { Navbar } from "./components";
 
@@ -23,9 +29,15 @@ const App = () => {
             <Route path='/' element={<Home />} />
             <Route path='/anime/:animeId/full' element={<AnimeDetails />} />
             <Route path='/anime-movies/:aphKey' element={<AnimeMovies />} />
-            <Route path='/genre/:genreTerm' element={<Genres />} />
             <Route path='/popular' element={<MostPopular />} />
+            <Route path='/genre/:genreTerm' element={<Genres />} />
             <Route path='/airing' element={<TopAiring />} />
+            <Route path='/favorite' element={<MostFavorite />} />
+            <Route path='/upcoming' element={<Upcoming />} />
+            <Route path='/movie' element={<Movies />} />
+            <Route path='/special' element={<Specials />} />
+            <Route path='/ova' element={<Ova />} />
+            <Route path='/ona' element={<Ona />} />
             <Route path='/search/:searchTerm' element={<Search />} />
             <Route path='/anime/:id/episodes' element={<AnimeWatch />} />
           </Routes>

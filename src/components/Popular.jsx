@@ -1,17 +1,19 @@
-import { useGetLimitedTopAnimeByTypeQuery } from "../redux/services/jikanApi";
 import DisplayCard from "./CardLayout/DisplayCard";
 import { useLocation } from "react-router-dom";
-import { useEffect } from "react";
+import { useGetTopAnimeByTypeQuery } from "../redux/services/jikanApi";
+
+import { useEffect, useState } from "react";
 
 const Popular = () => {
-  const { data, error, isFetching, refetch } = useGetLimitedTopAnimeByTypeQuery(
-    ["bypopularity", 5],
+  const location = useLocation()?.pathname;
+
+  const { data, error, isFetching, refetch } = useGetTopAnimeByTypeQuery(
+    ["bypopularity", 1, 5],
     {
       skip: false,
     }
   );
 
-  const location = useLocation();
   useEffect(() => {
     let timeoutId;
     if (data === undefined) {
@@ -29,7 +31,7 @@ const Popular = () => {
       animeName={anime?.title}
       url={anime?.images?.webp?.small_image_url}
       key={anime?.mal_id}
-      path={location?.pathname}
+      path={location}
     />
   ));
 };
