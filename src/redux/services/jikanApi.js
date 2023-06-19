@@ -27,7 +27,7 @@ export const jikanApi = createApi({
       query: (animeId) => `/anime/${animeId}/characters`,
     }),
     getAnimeGenres: builder.query({
-      query: () => `/genres/anime?filter=genres`,
+      query: () => `/genres/anime`,
     }),
     getAnimeWatch: builder.query({
       query: ([id, pageNumber]) => `/anime/${id}/episodes?page=${pageNumber}`,

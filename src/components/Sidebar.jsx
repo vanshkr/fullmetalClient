@@ -7,13 +7,45 @@ import { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 import "./styles.css";
 import { useLocation } from "react-router-dom";
-
+import { useGetAnimeGenresQuery } from "../redux/services/jikanApi";
 const Sidebar = () => {
   const [sidebar, setSidebar] = useState(false);
-  const [visible, setVisiblie] = useState(false);
-  const location = useLocation()?.pathname;
-  console.log(location);
+  const [tvisible, setTvisible] = useState(false);
 
+  const location = useLocation()?.pathname;
+  const [showAllGenres, setShowAllGenres] = useState(false);
+
+  const { data, error, isFetching, promise, refetch } = useGetAnimeGenresQuery(
+    "",
+    {
+      skip: false,
+    }
+  );
+  useEffect(() => {
+    let timeoutId;
+    if (data === undefined) {
+      timeoutId = setTimeout(() => {
+        refetch();
+      }, 2000);
+    }
+
+    return () => clearTimeout(timeoutId);
+  }, [isFetching]);
+  const genres = data?.data;
+  const displayedGenres = showAllGenres ? genres : genres?.slice(0, 10);
+
+  const toggleGenresVisibility = () => {
+    setShowAllGenres(!showAllGenres);
+  };
+  const colorArray = [
+    "#778741",
+    "#FFBF5B",
+    "#C63F31",
+    "#CCA5D5",
+    "#7EBFD8",
+    "#D8B290",
+    "#86E3CE",
+  ];
   const arr = [
     ["Home", "/"],
     ["Movies", "/movie"],
@@ -32,7 +64,8 @@ const Sidebar = () => {
   const ref = useRef(null);
   const handleClick = () => {
     setSidebar((currentValue) => !currentValue);
-    setVisiblie(false);
+    setTvisible(false);
+    setShowAllGenres(false);
   };
   useEffect(() => {
     function handleClickOutside(event) {
@@ -48,7 +81,7 @@ const Sidebar = () => {
   }, []);
   const handleItemShow = (item) => {
     if (item === "TV Series") {
-      setVisiblie((visible) => !visible);
+      setTvisible((tvisible) => !tvisible);
     }
   };
   return (
@@ -68,16 +101,22 @@ const Sidebar = () => {
                   className='text-lg block w-full border-b border-blackRibbon'
                   onClick={() => {
                     handleItemShow(item[0]);
-                    if (item[0] !== "TV Series") handleClick();
+                    !["TV Series", "Genre"].includes(item[0])
+                      ? handleClick()
+                      : null;
                   }}
                 >
                   <Link
                     className='block p-3.5 font-semibold relative hover:text-chineseGreen cursor-pointer'
-                    to={`${item[0] !== "TV Series" ? item[1] : `${location}`}`}
+                    to={`${
+                      !["TV Series", "Genre"].includes(item[0])
+                        ? item[1]
+                        : `${location}`
+                    }`}
                   >
                     {item[0]}
                   </Link>
-                  {visible === true && item[0] === "TV Series" && (
+                  {tvisible === true && item[0] === "TV Series" && (
                     <ul className='mt-3 flex flex-wrap text-lilacChampagne'>
                       {tvSeriesOptions.map((item) => {
                         return (
@@ -95,6 +134,30 @@ const Sidebar = () => {
                         );
                       })}
                     </ul>
+                  )}
+                  {item[0] === "Genre" && (
+                    <div className='mt-4'>
+                      <div className=' grid grid-cols-2  '>
+                        {displayedGenres?.map((item, ind) => (
+                          <div
+                            key={item.mal_id}
+                            className='text-sm font-mono  mt-3 p-1 truncate  hover:bg-blackRibbon   cursor-pointer text-center'
+                            style={{
+                              color: `${colorArray[ind % 7]}`,
+                            }}
+                            onClick={handleClick}
+                          >
+                            {item.name}
+                          </div>
+                        ))}
+                      </div>
+                      <button
+                        className='my-4 mx-2 text-white text-sm font-bold'
+                        onClick={toggleGenresVisibility}
+                      >
+                        {showAllGenres ? "- Less" : "+ More"}
+                      </button>
+                    </div>
                   )}
                 </li>
               );
