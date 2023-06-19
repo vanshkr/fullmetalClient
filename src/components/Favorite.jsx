@@ -1,4 +1,4 @@
-import DisplayCard from "./DisplayCard";
+import DisplayCard from "./CardLayout/DisplayCard";
 import { useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useGetLimitedTopAnimeByTypeQuery } from "../redux/services/jikanApi";

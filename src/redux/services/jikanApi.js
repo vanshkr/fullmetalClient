@@ -7,10 +7,13 @@ export const jikanApi = createApi({
   }),
   endpoints: (builder) => ({
     getTopAnimeByType: builder.query({
-      query: (type) => `/top/anime?filter=${type}`,
+      query: ([type, page]) => `/top/anime?filter=${type}&type=tv&page=${page}`,
     }),
     getLimitedTopAnimeByType: builder.query({
       query: ([type, lim]) => `/top/anime?filter=${type}&limit=${lim}`,
+    }),
+    getAnimeByStatus: builder.query({
+      query: ([status, limit]) => `/anime?status=${status}&limit=${limit}`,
     }),
     getWatchRecentEpisodes: builder.query({
       query: () => `/watch/episodes`,
@@ -38,4 +41,5 @@ export const {
   useGetLimitedTopAnimeByTypeQuery,
   useGetAnimeGenresQuery,
   useGetAnimeWatchQuery,
+  useGetAnimeByStatusQuery,
 } = jikanApi;

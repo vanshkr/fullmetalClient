@@ -1,5 +1,5 @@
 import { useGetLimitedTopAnimeByTypeQuery } from "../redux/services/jikanApi";
-import DisplayCard from "./DisplayCard";
+import DisplayCard from "./CardLayout/DisplayCard";
 import { useLocation } from "react-router-dom";
 import { useEffect } from "react";
 

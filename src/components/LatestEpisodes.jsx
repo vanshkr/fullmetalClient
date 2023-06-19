@@ -1,10 +1,9 @@
 import { useGetWatchRecentEpisodesQuery } from "../redux/services/jikanApi";
 
 import { useEffect, useState } from "react";
-import CardContainer from "./CardContainer";
+import CardContainer from "./CardLayout/CardContainer";
 
 const LatestEpisodes = () => {
-  // const [data, setData] = useState({});
   const { data, isFetching, refetch } = useGetWatchRecentEpisodesQuery(
     "hello",
     {

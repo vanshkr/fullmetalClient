@@ -1,15 +1,15 @@
-import { useGetLimitedTopAnimeByTypeQuery } from "../redux/services/jikanApi";
-import DisplayCard from "./DisplayCard";
+import { useGetAnimeByStatusQuery } from "../redux/services/jikanApi";
+import DisplayCard from "./CardLayout/DisplayCard";
 import { useLocation } from "react-router-dom";
 import { useEffect } from "react";
+
 const Completed = () => {
-  const { data, error, isFetching, refetch } = useGetLimitedTopAnimeByTypeQuery(
-    ["completed", 5],
-    {
+  const { data, error, isFetching, promise, refetch } =
+    useGetAnimeByStatusQuery(["complete", 5], {
       skip: false,
-    }
-  );
+    });
   const location = useLocation();
+  console.log(location.pathname);
   useEffect(() => {
     let timeoutId;
     if (data === undefined) {
@@ -20,6 +20,7 @@ const Completed = () => {
 
     return () => clearTimeout(timeoutId);
   }, [isFetching]);
+
   return data?.data?.map((anime, index) => (
     <DisplayCard
       id={anime?.mal_id}

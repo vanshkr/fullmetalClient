@@ -1,16 +1,7 @@
-import { useState, useRef } from "react";
-import { Link } from "react-router-dom";
-const Pagination = ({
-  data,
-  onPageChange,
-  onEpisodeChange,
-  firstPageItems,
-}) => {
-  const [isOpen, setIsOpen] = useState(false);
-  const toggleDropdown = () => {
-    setIsOpen(!isOpen);
-  };
+import React, { useState, useRef } from "react";
 
+import { Link } from "react-router-dom";
+const Pagination = ({ data, onPageChange, onEpisodeChange }) => {
   const itemsPerPage = data?.data?.length;
   const initialItems = useRef(100);
   const totalPages = data?.pagination?.last_visible_page;
@@ -28,16 +19,11 @@ const Pagination = ({
     for (let i = 1; i <= totalPages; i++) {
       const startIndex = (i - 1) * initialItems.current;
       const endIndex = startIndex + initialItems.current;
-      pagination.push(
-        <option className=' text-white' key={i} value={i}>
-          Eps: {startIndex + 1}-{endIndex}
-        </option>
-      );
+      pagination.push(`Eps: ${startIndex + 1}-${endIndex}`);
     }
 
     return pagination;
   };
-  console.log("paginaiton render");
 
   const renderItems = () => {
     const startIndex = data?.data?.[0]?.mal_id;
@@ -49,7 +35,7 @@ const Pagination = ({
           className=' cursor-pointer rounded-md text-center bg-blackRibbon hover:bg-blackRibbon hover:opacity-100 '
           key={i}
           onClick={() => {
-            handleEpsiodeChange(i - startIndex);
+            handleEpsiodeChange(i);
           }}
         >
           {i}
@@ -64,22 +50,26 @@ const Pagination = ({
     <div className='bg-nobleBlack'>
       <div className='bg-cursedBlack'>
         <div className='relative inline-block text-left bg-cursedBlack'>
-          <div
-            className='inline-flex cursor-pointer justify-center px-4 py-2 text-sm font-medium text-white'
-            onClick={toggleDropdown}
-          >
-            Episodes List -
-          </div>
-          {isOpen && (
-            <div className='rounded-l-xl cursor-pointer   absolute overflow-auto h-40 right-0 mt-2 origin-top-right bg-black '>
-              <div
-                className='py-1 '
-                onClick={(e) => handlePageChange(Number(e.target.value))}
-              >
-                {renderPagination()}
-              </div>
+          <>
+            <div className='inline-flex cursor-pointer justify-center px-4 py-2 text-sm font-medium text-white'>
+              List of Episodes -
             </div>
-          )}
+
+            <div className='px-4 cursor-pointer  '>
+              <select
+                className='py-1 text-white bg-cursedBlack'
+                onChange={(e) => handlePageChange(Number(e.target.value))}
+              >
+                {renderPagination().map((p, i) => {
+                  return (
+                    <option className=' text-white' key={i} value={i + 1}>
+                      {p}
+                    </option>
+                  );
+                })}
+              </select>
+            </div>
+          </>
         </div>
       </div>
 

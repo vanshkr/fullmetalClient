@@ -13,13 +13,13 @@ const Genres = () => {
 
   return (
     <>
-      <h3 className="font-semibold text-xl md:text-3xl text-drySeedlings mt-4">
+      <h3 className='font-semibold text-xl md:text-3xl text-drySeedlings mt-4'>
         Genres
       </h3>
-      <div className="h-fit rounded-lg  mt-6 grid grid-cols-3 gap-3 bg-stretchLimo">
+      <div className='h-fit rounded-lg  mt-6 grid grid-cols-3 gap-3 bg-stretchLimo'>
         {genres?.map((item, ind) => (
           <div
-            className="text-sm font-mono ml-2 mt-2 p-1  hover:bg-blackRibbon rounded-md  cursor-pointer text-center"
+            className='text-sm font-mono ml-2 mt-2 p-1  hover:bg-blackRibbon rounded-md  cursor-pointer text-center'
             style={{
               color: `${colorArray[ind % 7]}`,
             }}

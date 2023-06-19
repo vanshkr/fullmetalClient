@@ -1,4 +1,4 @@
-import { AnimeCard } from "../components";
+import { AnimeCard } from "..";
 
 const CardContainer = ({ containerName, newArr, data }) => {
   return (
@@ -12,7 +12,7 @@ const CardContainer = ({ containerName, newArr, data }) => {
         </div>
       </div>
 
-      <div className=' w-full mt-6 flex flex-1 flex-wrap justify-around md:gap-y-6 gap-y-3'>
+      <div className=' w-full mt-6 justify-center items-center  grid xl:grid-cols-4 md:grid-cols-3 grid-cols-2 md:gap-6 gap-3'>
         {newArr?.map((anime, i) => (
           <AnimeCard
             key={`${anime?.entry?.mal_id}-${anime?.entry?.title}`}

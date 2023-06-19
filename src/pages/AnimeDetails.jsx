@@ -3,10 +3,9 @@ import {
   useGetAnimeDetailsQuery,
   useGetActorsDetailsQuery,
 } from "../redux/services/jikanApi";
-import DetailsCard from "../components/DetailsCard";
-import { RiAddFill } from "react-icons/ri";
+import { Common } from "../components";
 import useRelatedArr from "../customhooks/useRelatedArr";
-import DisplayCard from "../components/DisplayCard";
+
 import { useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { FaPlayCircle, FaPlus } from "react-icons/fa";
@@ -17,7 +16,6 @@ const AnimeDetails = () => {
   const [visible, setVisible] = useState(false);
   const location = useLocation();
   const { data } = useGetAnimeDetailsQuery(id);
-  console.log(data, id);
   const arr = data?.data?.relations;
   const newArr = useRelatedArr(arr);
   const value = useGetActorsDetailsQuery(id);
@@ -28,8 +26,9 @@ const AnimeDetails = () => {
   const synopsis = data?.data?.synopsis;
   const slicedSynopsis = synopsis?.slice(0, 300);
   const restSlicedSynopsis = synopsis?.slice(300);
+
   return (
-    <div className='md:flex-row flex-col bg-stretchLimo h-full w-full '>
+    <div className='md:flex-row flex-col bg-stretchLimo h-fit w-full'>
       <div className=' h-full'>
         <div className='h-full w-full relative'>
           <div className='h-full absolute inset-0 overflow-hidden '>
@@ -43,7 +42,7 @@ const AnimeDetails = () => {
               }}
             ></div>
           </div>
-          <div className='grid md:grid-cols-10  text-white relative '>
+          <div className='grid md:grid-cols-10 text-white relative '>
             <div className='xl:col-span-2 md:col-span-3'>
               <div className='md:top-20 top-10 mx-auto relative xl:w-56 md:w-48 w-44'>
                 <div className='w-full h-full'>
@@ -61,7 +60,7 @@ const AnimeDetails = () => {
                     {data?.data?.titles?.[0]?.title}
                   </div>
                   <div className='m-10 flex flex-col gap-y-6 md:flex-row justify-center font-bold'>
-                    <div className='bg-drySeedlings text-black py-2 px-5 rounded-full mx-auto md:mr-4'>
+                    <button className='bg-drySeedlings text-black py-2 px-5 rounded-full mx-auto md:mr-4'>
                       <Link
                         className='flex justify-center items-center '
                         to={`/anime/${id}/episodes`}
@@ -69,17 +68,17 @@ const AnimeDetails = () => {
                         <FaPlayCircle className='mr-2 text-xl md:text-2xl' />
                         <p className='text-md md:text-lg'>Watch Now</p>
                       </Link>
-                    </div>
+                    </button>
 
-                    <div className='bg-white text-black py-2 px-5  rounded-full  mx-auto'>
+                    <button className='bg-white text-black py-2 px-5  rounded-full  mx-auto'>
                       <Link
-                        className='flex justify-center items-center cursor-pointer '
+                        className='flex justify-center items-center '
                         to={`/anime-details/${id}/full`}
                       >
                         <FaPlus className='mr-2 text-xl md:text-2xl' />
                         <p className='text-md md:text-lg'>Add to List</p>
                       </Link>
-                    </div>
+                    </button>
                   </div>
 
                   <div className='my-14 mx-10 hidden md:block'>
@@ -96,7 +95,7 @@ const AnimeDetails = () => {
               </div>
             </div>
 
-            <div className='bg-[rgba(37,38,41,0.3)] xl:col-span-2 md:col-span-10  p-5 py-10 relative '>
+            <div className='bg-[rgba(37,38,41,0.3)] xl:col-span-2  md:col-span-10 p-5 py-10 relative'>
               <div className='relative xl:top-14 mb-10'>
                 <div className='text-white '>
                   <div className='md:hidden  block h-36 mb-10'>
@@ -105,7 +104,7 @@ const AnimeDetails = () => {
                       {synopsis}
                     </p>
                   </div>
-                  <div className='p-2'>
+                  <div className=' p-2'>
                     <span className='font-bold'>Japanese:</span>{" "}
                     {data?.data?.title_japanese}
                   </div>
@@ -148,63 +147,15 @@ const AnimeDetails = () => {
             </div>
           </div>
         </div>
-      </div>
-
-      <div className='w-full flex md:flex-row flex-col mt-10 '>
-        <div className='lg:w-[75%] md:w-[65%] w-full'>
-          <div className='w-full flex flex-col'>
-            <h1 className='font-semibold text-xl md:text-3xl text-chineseGreen text-left'>
-              Characters & Voice Actors
-            </h1>
-            <div className=' mt-8 flex flex-wrap justify-between'>
-              {value?.data?.data?.map((detail, i) => (
-                <DetailsCard details={detail} key={i} />
-              ))}
-            </div>
-          </div>
-        </div>
-        <div className=' lg:w-[25%] md:w-[35%] flex-col w-full lg:ml-8 md:ml-4 '>
-          <div
-            className='w-full'
-            style={{ display: `${newArr?.length} ? block:none` }}
-          >
-            <h1 className='font-semibold text-xl md:text-3xl text-chineseGreen text-left'>
-              Related Anime
-            </h1>
-            <div className='mt-8 w-full flex-col bg-metalise'>
-              {newArr.map(({ id, animeName }) => (
-                <DisplayCard
-                  id={id}
-                  animeName={animeName}
-                  url={imgUrl}
-                  key={id}
-                  path={location?.pathname}
-                />
-              ))}
-            </div>
-          </div>
-          <div className='w-full mt-8'>
-            <h1 className='font-semibold text-xl md:text-3xl text-chineseGreen text-left'>
-              Most Popular
-            </h1>
-            <div className='mt-8 w-full flex-col  '>
-              <div className='bg-metalise gap-6 flex p-3 w-full'>
-                <div className=' w-16 h-16'>
-                  <img
-                    className='w-full h-full'
-                    src={data?.data?.images?.webp?.small_image_url}
-                  />
-                </div>
-                <div className='text-white my-2 text-sm sm:text-lg w-80 '>
-                  <h1 className='mb-2'>One Piece: The Movie 14 - Stamp</h1>
-                </div>
-                <div className='text-white hover:text-green text-2xl sm:text-4xl my-3  '>
-                  <RiAddFill />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        {
+          <Common
+            newArr={newArr}
+            path={location?.pathname}
+            value={value}
+            imgUrl={imgUrl}
+            data={data}
+          />
+        }
       </div>
     </div>
   );

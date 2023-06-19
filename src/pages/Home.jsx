@@ -8,6 +8,7 @@ import {
 } from "../components";
 import { Slider } from "../components";
 import Genres from "./Genres";
+import { Link } from "react-router-dom";
 
 const Home = () => {
   const componentArray = [
@@ -31,15 +32,24 @@ const Home = () => {
       </div>
       <div className=' grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4  xl:p-8 md:p-4 p-2  mt-12  bg-nobleBlack xl:gap-12 md:gap-6 gap-3 px-2'>
         {componentArray.map((component) => {
+          const word = component[0].split(" ");
           return (
             <div className='  bg-blackRibbon '>
               <div className='font-semibold text-md md:text-xl text-drySeedlings m-3 '>
                 {component[0]}
               </div>
               {component[1]}
-              <div className='font-semibold text-md  text-nonChalantWhite text-center m-3 '>
-                View More &gt;
-              </div>
+              <Link
+                to={`/${
+                  word.length > 1
+                    ? word[1].toLowerCase()
+                    : word[0].toLowerCase()
+                }`}
+              >
+                <div className='font-semibold text-md  text-nonChalantWhite text-center m-3 cursor-pointer '>
+                  View More &gt;
+                </div>
+              </Link>
             </div>
           );
         })}
@@ -52,10 +62,17 @@ const Home = () => {
           <Genres />
         </div>
       </div>
-      <div>estimated schedule</div>
-      <div>
-        <div className='xl:w-[70%]  px-2 '>uppcoming </div>
+      <div
+        className='text-white
+      '
+      >
+        estimated schedule
       </div>
+      {/* <div>
+        <div className='xl:w-[70%]  px-2 '>
+          <LatestEpisodes />
+        </div>
+      </div> */}
     </div>
   );
 };

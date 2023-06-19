@@ -29,6 +29,7 @@ module.exports = {
         metalise: "#35373D",
         seaFoam: "#86E3CE",
         blackWalnut: "#5E5046",
+        lilacChampagne: " #DEE1E6",
       },
       animation: {
         slideup: "slideup 1s ease-in-out",
