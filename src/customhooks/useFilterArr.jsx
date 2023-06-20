@@ -1,8 +1,8 @@
-import { useGetTopAnimeByTypeQuery } from "../redux/services/jikanApi";
+import { useGetTrendingAnimeQuery } from "../redux/services/jikanApi";
 
 const useFilterArr = ({ type, limit }) => {
   const newArr = [];
-  const { data } = useGetTopAnimeByTypeQuery([type, 1, limit]);
+  const { data } = useGetTrendingAnimeQuery();
   data?.data?.map((anime, i) => {
     newArr.push({
       id: anime?.mal_id,

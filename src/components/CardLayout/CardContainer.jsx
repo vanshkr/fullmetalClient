@@ -1,4 +1,5 @@
 import { AnimeCard } from "..";
+import { Link } from "react-router-dom";
 
 const CardContainer = ({ containerName, newArr, data }) => {
   return (
@@ -7,9 +8,9 @@ const CardContainer = ({ containerName, newArr, data }) => {
         <h3 className='font-semibold text-xl md:text-3xl text-drySeedlings'>
           {containerName}
         </h3>
-        <div className='text-greyHeather md:mt-4 mt-2  text-sm font-semibold cursor-pointer ml-auto'>
+        <Link className='text-greyHeather md:mt-4 mt-2  text-sm font-semibold cursor-pointer ml-auto'>
           View more &gt;
-        </div>
+        </Link>
       </div>
 
       <div className=' w-full mt-6 justify-center items-center  grid xl:grid-cols-4 md:grid-cols-3 grid-cols-2 md:gap-6 gap-3'>
@@ -17,7 +18,6 @@ const CardContainer = ({ containerName, newArr, data }) => {
           <AnimeCard
             key={`${anime?.entry?.mal_id}-${anime?.entry?.title}`}
             anime={anime}
-            data={data}
             i={i}
           />
         ))}

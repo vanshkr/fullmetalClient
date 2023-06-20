@@ -2,17 +2,27 @@ import "swiper/css";
 import "swiper/css/bundle";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Link } from "react-router-dom";
-import useFilterArr from "../customhooks/useFilterArr";
-import { trends } from "../assets/constants";
+import { useGetTrendingAnimeQuery } from "../redux/services/jikanApi";
+import { useEffect } from "react";
+
 import "./styles.css";
 
 const Trending = () => {
-  const value = {
-    type: "trending",
-    limit: 10,
-  };
-  const newArr = useFilterArr(value);
-  // const newArr = trends;
+  const { data, error, isFetching, promise, refetch } =
+    useGetTrendingAnimeQuery("", {
+      skip: false,
+    });
+  useEffect(() => {
+    let timeoutId;
+    if (data === undefined) {
+      timeoutId = setTimeout(() => {
+        refetch();
+      }, 2000);
+    }
+
+    return () => clearTimeout(timeoutId);
+  }, [isFetching]);
+  const newArr = data?.data;
   return (
     <>
       <div className='max-w-full flex flex-col mt-6 '>
@@ -23,7 +33,7 @@ const Trending = () => {
                 <SwiperSlide
                   style={{ width: "25%", height: "auto", paddingLeft: "15px" }}
                   className='animate-slideright md:mx-2 swiperSliderTrending'
-                  key={anime?.id}
+                  key={anime?.mal_id}
                 >
                   <div className='w-full h-full flex '>
                     <div className='bg-gradient-to-t from-black to-greyHeather w-10 h-full flex flex-col justify-end'>
@@ -46,9 +56,9 @@ const Trending = () => {
                       </div>
                     </div>
                     <div className='md:w-[80%] w-[100%] h-full cursor-pointer '>
-                      <Link to={`/anime/${anime?.id}/full`}>
+                      <Link to={`/anime/${anime?.mal_id}/full`}>
                         <img
-                          src={anime?.img?.[0]}
+                          src={anime?.images?.webp?.large_image_url}
                           title={anime?.title}
                           className='w-full h-full object-cover '
                         />

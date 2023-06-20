@@ -1,6 +1,8 @@
 import { useGetAnimeGenresQuery } from "../redux/services/jikanApi";
 import { useState, useEffect } from "react";
 import { colorArray } from "../assets/constants";
+import { Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
 const Genres = () => {
   const [showAllGenres, setShowAllGenres] = useState(false);
 
@@ -34,7 +36,8 @@ const Genres = () => {
       <div className='rounded-lg mt-6 bg-stretchLimo px-3'>
         <div className=' grid grid-cols-3 gap-2 '>
           {displayedGenres?.map((item, ind) => (
-            <div
+            <Link
+              to={`/genre/${item.mal_id}/${item?.name}`}
               key={item.mal_id}
               className='text-sm font-mono  mt-3 p-1 truncate  hover:bg-blackRibbon rounded-md  cursor-pointer text-center'
               style={{
@@ -42,7 +45,7 @@ const Genres = () => {
               }}
             >
               {item.name}
-            </div>
+            </Link>
           ))}
         </div>
         <button

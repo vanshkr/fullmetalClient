@@ -1,5 +1,5 @@
 import { useGetTopAnimeByTypeQuery } from "../redux/services/jikanApi";
-import Genres from "./Genres";
+import Genres from "../components/Genres";
 import { useState } from "react";
 import { TopCardContainer, PagePagination } from "../components";
 

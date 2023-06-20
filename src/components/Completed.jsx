@@ -20,7 +20,7 @@ const Completed = () => {
     }
 
     return () => clearTimeout(timeoutId);
-  }, [data, refetch]);
+  }, [isFetching]);
 
   return data?.data?.map((anime, index) => (
     <DisplayCard

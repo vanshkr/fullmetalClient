@@ -7,10 +7,16 @@ import {
   Popular,
 } from "../components";
 import { Slider } from "../components";
-import Genres from "./Genres";
+import Genres from "../components/Genres";
 import { Link } from "react-router-dom";
-import { componentArray } from "../assets/constants";
+
 const Home = () => {
+  const componentArray = [
+    ["Top Airing", <Airing />],
+    ["Most Popular", <Popular />],
+    ["Most Favorite", <Favorite />],
+    ["Completed", <Completed />],
+  ];
   return (
     <div className='w-full flex flex-col px-2'>
       <div className='w-full'>
@@ -25,10 +31,10 @@ const Home = () => {
         <Trending />
       </div>
       <div className=' grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4  xl:p-8 md:p-4 p-2  mt-12  bg-nobleBlack xl:gap-12 md:gap-6 gap-3 px-2'>
-        {componentArray.map((component) => {
+        {componentArray.map((component, ind) => {
           const word = component[0].split(" ");
           return (
-            <div className='  bg-blackRibbon '>
+            <div key={ind} className='  bg-blackRibbon '>
               <div className='font-semibold text-md md:text-xl text-drySeedlings m-3 '>
                 {component[0]}
               </div>
@@ -48,7 +54,7 @@ const Home = () => {
           );
         })}
       </div>
-      <div className='flex xl:flex-row flex-col bg-nobleBlack'>
+      <div className='flex xl:flex-row flex-col bg-nobleBlack mb-10'>
         <div className='xl:w-[70%]  px-2 '>
           <LatestEpisodes />
         </div>
@@ -56,17 +62,6 @@ const Home = () => {
           <Genres />
         </div>
       </div>
-      <div
-        className='text-white
-      '
-      >
-        estimated schedule
-      </div>
-      {/* <div>
-        <div className='xl:w-[70%]  px-2 '>
-          <LatestEpisodes />
-        </div>
-      </div> */}
     </div>
   );
 };

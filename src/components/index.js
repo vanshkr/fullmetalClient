@@ -21,9 +21,11 @@ import Dropdown from "./Dropdown";
 import AnimeDetailsCommon from "./Common/AnimeDetailsCommon";
 import AnimePagesCommon from "./Common/AnimePagesCommon";
 import TopCardContainer from "./CardLayout/TopCardContainer";
+import Genres from "./Genres";
 
 export {
   CardContainer,
+  Genres,
   AnimeDetailsCommon,
   AnimePagesCommon,
   WatchPagination,

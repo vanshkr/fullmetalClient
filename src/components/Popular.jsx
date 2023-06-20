@@ -23,7 +23,7 @@ const Popular = () => {
     }
 
     return () => clearTimeout(timeoutId);
-  }, [data, refetch]);
+  }, [isFetching]);
   return data?.data?.map((anime, index) => (
     <DisplayCard
       id={anime?.mal_id}

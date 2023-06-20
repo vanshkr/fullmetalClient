@@ -138,10 +138,3 @@ export const tvSeriesOptions = [
   ["Popular", "/popular"],
   ["Favorite", "/favorite"],
 ];
-
-export const componentArray = [
-  ["Top Airing", <Airing />],
-  ["Most Popular", <Popular />],
-  ["Most Favorite", <Favorite />],
-  ["Completed", <Completed />],
-];

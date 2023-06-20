@@ -1,5 +1,4 @@
 import AnimeDetails from "./AnimeDetails";
-import Genres from "./Genres";
 import Home from "./Home";
 import Search from "./Search";
 import MostPopular from "./MostPopular";
@@ -11,13 +10,15 @@ import Ova from "./Ova";
 import Specials from "./Specials";
 import Upcoming from "./Upcoming";
 import MostFavorite from "./MostFavorite";
+import Genre from "./Genre";
+
 export {
   AnimeDetails,
   Home,
+  Genre,
   Search,
   MostPopular,
   TopAiring,
-  Genres,
   AnimeWatch,
   Movies,
   MostFavorite,

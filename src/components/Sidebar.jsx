@@ -77,9 +77,10 @@ const Sidebar = () => {
             <AiOutlineClose className='ml-4 cursor-pointer' />
           </div>
           <ul className='mt-3 flex flex-wrap'>
-            {sidebarOptions.map((item) => {
+            {sidebarOptions.map((item, ind) => {
               return (
                 <li
+                  key={ind}
                   className='text-lg block w-full border-b border-blackRibbon'
                   onClick={() => {
                     handleItemShow(item[0]);
@@ -121,7 +122,8 @@ const Sidebar = () => {
                     <div className='mt-4'>
                       <div className=' grid grid-cols-2  '>
                         {displayedGenres?.map((item, ind) => (
-                          <div
+                          <Link
+                            to={`/genre/${item.mal_id}/${item?.name}`}
                             key={item.mal_id}
                             className='text-sm font-mono  mt-3 p-1 truncate  hover:bg-blackRibbon   cursor-pointer text-center'
                             style={{
@@ -130,7 +132,7 @@ const Sidebar = () => {
                             onClick={handleClick}
                           >
                             {item.name}
-                          </div>
+                          </Link>
                         ))}
                       </div>
                       <button

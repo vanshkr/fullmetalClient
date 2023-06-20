@@ -4,12 +4,9 @@ import { useEffect, useState } from "react";
 import CardContainer from "./CardLayout/CardContainer";
 
 const LatestEpisodes = () => {
-  const { data, isFetching, refetch } = useGetWatchRecentEpisodesQuery(
-    "hello",
-    {
-      skip: false,
-    }
-  );
+  const { data, isFetching, refetch } = useGetWatchRecentEpisodesQuery("", {
+    skip: false,
+  });
   useEffect(() => {
     let timeoutId;
     if (data === undefined) {
