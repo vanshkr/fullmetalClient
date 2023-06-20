@@ -1,19 +1,14 @@
-import {
-  AiOutlineMenu,
-  AiOutlineClose,
-  AiTwotoneCustomerService,
-} from "react-icons/ai";
-import { useState, useRef, useEffect } from "react";
-import { Link } from "react-router-dom";
-import "./styles.css";
-import { useLocation } from "react-router-dom";
+import { AiOutlineMenu, AiOutlineClose } from "react-icons/ai";
 import { useGetAnimeGenresQuery } from "../redux/services/jikanApi";
+import { useState, useRef, useEffect } from "react";
+import { Link, useLocation } from "react-router-dom";
+import "./styles.css";
+
 const Sidebar = () => {
   const [sidebar, setSidebar] = useState(false);
   const [tvisible, setTvisible] = useState(false);
-
-  const location = useLocation()?.pathname;
   const [showAllGenres, setShowAllGenres] = useState(false);
+  const location = useLocation()?.pathname;
 
   const { data, error, isFetching, promise, refetch } = useGetAnimeGenresQuery(
     "",
@@ -21,22 +16,10 @@ const Sidebar = () => {
       skip: false,
     }
   );
-  useEffect(() => {
-    let timeoutId;
-    if (data === undefined) {
-      timeoutId = setTimeout(() => {
-        refetch();
-      }, 2000);
-    }
-
-    return () => clearTimeout(timeoutId);
-  }, [isFetching]);
   const genres = data?.data;
+
   const displayedGenres = showAllGenres ? genres : genres?.slice(0, 10);
 
-  const toggleGenresVisibility = () => {
-    setShowAllGenres(!showAllGenres);
-  };
   const colorArray = [
     "#778741",
     "#FFBF5B",
@@ -46,6 +29,7 @@ const Sidebar = () => {
     "#D8B290",
     "#86E3CE",
   ];
+
   const arr = [
     ["Home", "/"],
     ["Movies", "/movie"],
@@ -55,18 +39,27 @@ const Sidebar = () => {
     ["Specials", "/special"],
     ["Genre"],
   ];
+
   const tvSeriesOptions = [
     ["Airing", "/airing"],
     ["Upcoming", "/upcoming"],
     ["Popular", "/popular"],
     ["Favorite", "/favorite"],
   ];
+
   const ref = useRef(null);
-  const handleClick = () => {
-    setSidebar((currentValue) => !currentValue);
-    setTvisible(false);
-    setShowAllGenres(false);
-  };
+
+  useEffect(() => {
+    let timeoutId;
+    if (data === undefined) {
+      timeoutId = setTimeout(() => {
+        refetch();
+      }, 2000);
+    }
+
+    return () => clearTimeout(timeoutId);
+  }, [data, refetch]);
+
   useEffect(() => {
     function handleClickOutside(event) {
       if (ref.current && !ref.current.contains(event.target)) {
@@ -79,6 +72,17 @@ const Sidebar = () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
+
+  const toggleGenresVisibility = () => {
+    setShowAllGenres(!showAllGenres);
+  };
+
+  const handleClick = () => {
+    setSidebar((currentValue) => !currentValue);
+    setTvisible(false);
+    setShowAllGenres(false);
+  };
+
   const handleItemShow = (item) => {
     if (item === "TV Series") {
       setTvisible((tvisible) => !tvisible);
@@ -116,7 +120,7 @@ const Sidebar = () => {
                   >
                     {item[0]}
                   </Link>
-                  {tvisible === true && item[0] === "TV Series" && (
+                  {tvisible && item[0] === "TV Series" && (
                     <ul className='mt-3 flex flex-wrap text-lilacChampagne'>
                       {tvSeriesOptions.map((item) => {
                         return (

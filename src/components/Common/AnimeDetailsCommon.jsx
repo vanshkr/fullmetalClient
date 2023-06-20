@@ -1,9 +1,9 @@
-import DisplayCard from "./CardLayout/DisplayCard";
-import DetailsCard from "./CardLayout/DetailsCard";
+import DisplayCard from "../CardLayout/DisplayCard";
+import DetailsCard from "../CardLayout/DetailsCard";
 import { RiAddFill } from "react-icons/ri";
 import { useState } from "react";
 
-const Common = ({ newArr, path, imgUrl, value, data }) => {
+const AnimeDetailsCommon = ({ newArr, path, imgUrl, value, data }) => {
   const [relatedAnimeVisible, setRelatedAnimeVisible] = useState(false);
   console.log(newArr);
   const x = newArr?.map(({ id, animeName }) => (
@@ -77,4 +77,4 @@ const Common = ({ newArr, path, imgUrl, value, data }) => {
   );
 };
 
-export default Common;
+export default AnimeDetailsCommon;

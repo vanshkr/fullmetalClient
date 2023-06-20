@@ -2,9 +2,9 @@ import { useParams } from "react-router-dom";
 import {
   useGetAnimeDetailsQuery,
   useGetActorsDetailsQuery,
+  useGetAnimeWatchQuery,
 } from "../redux/services/jikanApi";
-import { Common } from "../components";
-import { WatchPagination } from "../components";
+import { AnimeDetailsCommon, WatchPagination } from "../components";
 
 import useRelatedArr from "../customhooks/useRelatedArr";
 
@@ -13,14 +13,17 @@ import { useState, useRef, useEffect } from "react";
 const AnimeWatch = () => {
   const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
   const [pageNumber, setPageNumber] = useState(1);
-  const [result, setResult] = useState(null);
+
   const { id } = useParams();
   const { data } = useGetAnimeDetailsQuery(id);
+  const arr = data?.data?.relations;
+  const newArr = useRelatedArr(arr);
+  const value = useGetActorsDetailsQuery(id);
+  const imgUrl = data?.data?.images?.webp?.small_image_url;
+  const playerRef = useRef(null);
 
-  useEffect(() => {
-    fetchData(id, pageNumber);
-  }, [pageNumber]);
-
+  const val = useGetAnimeWatchQuery([id, pageNumber]);
+  const result = val?.data;
   useEffect(() => {
     const res = check();
 
@@ -36,29 +39,14 @@ const AnimeWatch = () => {
       setPageNumber((prevPageNumber) => prevPageNumber + 1);
     }
   }, [currentVideoIndex]);
-  const fetchData = async (id, pageNumber) => {
-    try {
-      const response = await fetch(
-        `https://api.jikan.moe/v4/anime/${id}/episodes?page=${pageNumber}`
-      );
-      const jsonData = await response.json();
-      setResult(jsonData);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+
   const check = () => {
     const val = result?.pagination?.has_next_page
       ? result?.data?.[0]?.mal_id
       : result?.data?.[data?.length - 1]?.mal_id;
-    if ((pageNumber - 1) * 100 + (currentVideoIndex + 1) === val) return true;
-    return false;
+    return (pageNumber - 1) * 100 + (currentVideoIndex + 1) === val;
   };
-  const arr = data?.data?.relations;
-  const newArr = useRelatedArr(arr);
-  const value = useGetActorsDetailsQuery(id);
-  const imgUrl = data?.data?.images?.webp?.small_image_url;
-  const playerRef = useRef(null);
+
   const handlePageChange = (value) => {
     setPageNumber(value);
     setCurrentVideoIndex(0);
@@ -103,7 +91,7 @@ const AnimeWatch = () => {
               <div className='xl:col-span-9 overflow-auto  xl:order-2 order-1 min-h-[340px]'>
                 <div className='w-full '>
                   <div ref={playerRef}>
-                    {/* {result?.data?.[currentVideoIndex]?.title} */}
+                    {result?.data?.[currentVideoIndex]?.title}
                     {result?.data?.[currentVideoIndex]?.mal_id}
                   </div>
                   <button onClick={playPreviousVideo}>Previous</button>
@@ -114,7 +102,14 @@ const AnimeWatch = () => {
             <div></div>
           </div>
         </div>
-        {<Common newArr={newArr} data={data} value={value} imgUrl={imgUrl} />}
+        {
+          <AnimeDetailsCommon
+            newArr={newArr}
+            data={data}
+            value={value}
+            imgUrl={imgUrl}
+          />
+        }
       </div>
     </div>
   );

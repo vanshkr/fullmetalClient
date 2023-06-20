@@ -1,12 +1,11 @@
-import { useParams } from "react-router-dom";
+import { useParams, useLocation } from "react-router-dom";
 import {
   useGetAnimeDetailsQuery,
   useGetActorsDetailsQuery,
 } from "../redux/services/jikanApi";
-import { Common } from "../components";
+import { AnimeDetailsCommon } from "../components";
 import useRelatedArr from "../customhooks/useRelatedArr";
 
-import { useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { FaPlayCircle, FaPlus } from "react-icons/fa";
 import { Link } from "react-router-dom";
@@ -148,7 +147,7 @@ const AnimeDetails = () => {
           </div>
         </div>
         {
-          <Common
+          <AnimeDetailsCommon
             newArr={newArr}
             path={location?.pathname}
             value={value}

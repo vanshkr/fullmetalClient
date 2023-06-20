@@ -18,7 +18,7 @@ const Airing = () => {
     }
 
     return () => clearTimeout(timeoutId);
-  }, [isFetching]);
+  }, [data, refetch]);
 
   return data?.data?.map((anime, index) => (
     <DisplayCard

@@ -11,7 +11,6 @@ const Completed = () => {
     }
   );
   const location = useLocation();
-  console.log(location.pathname);
   useEffect(() => {
     let timeoutId;
     if (data === undefined) {
@@ -21,7 +20,7 @@ const Completed = () => {
     }
 
     return () => clearTimeout(timeoutId);
-  }, [isFetching]);
+  }, [data, refetch]);
 
   return data?.data?.map((anime, index) => (
     <DisplayCard

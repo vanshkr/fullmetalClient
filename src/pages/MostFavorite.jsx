@@ -1,29 +1,17 @@
 import { useGetTopAnimeByTypeQuery } from "../redux/services/jikanApi";
 import Genres from "./Genres";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { TopCardContainer, PagePagination } from "../components";
 
 import "./styles.css";
 
 const MostFavorite = () => {
   const [pageNumber, setPageNumber] = useState(1);
-  const { data, isFetching, refetch } = useGetTopAnimeByTypeQuery(
-    ["favorite", pageNumber, 25],
-    {
-      skip: false,
-    }
-  );
+  const { data } = useGetTopAnimeByTypeQuery(["favorite", pageNumber, 25], {
+    skip: false,
+  });
   const pageCount = data?.pagination?.last_visible_page;
-  useEffect(() => {
-    let timeoutId;
-    if (data === undefined) {
-      timeoutId = setTimeout(() => {
-        refetch();
-      }, 5000);
-    }
 
-    return () => clearTimeout(timeoutId);
-  }, [isFetching]);
   const handlePageClick = (value) => {
     setPageNumber(value);
   };

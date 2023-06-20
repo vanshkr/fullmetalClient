@@ -10,7 +10,6 @@ const AnimeCard = ({ anime, data }) => {
 
         <div className='absolute  bottom-1 right-2 md:p-1 bg-electricBlue rounded-full'>
           <p className='px-0.5 font-bold text-sm text-nobleBlack  '>
-            {" "}
             Ep {anime?.episodes?.[0]?.mal_id}
           </p>
         </div>

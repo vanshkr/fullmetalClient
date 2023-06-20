@@ -2,7 +2,7 @@ import DisplayCard from "./CardLayout/DisplayCard";
 import { useLocation } from "react-router-dom";
 import { useGetTopAnimeByTypeQuery } from "../redux/services/jikanApi";
 
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 const Popular = () => {
   const location = useLocation()?.pathname;
@@ -23,8 +23,7 @@ const Popular = () => {
     }
 
     return () => clearTimeout(timeoutId);
-  }, [isFetching]);
-
+  }, [data, refetch]);
   return data?.data?.map((anime, index) => (
     <DisplayCard
       id={anime?.mal_id}

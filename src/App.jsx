@@ -2,7 +2,6 @@ import { Route, Routes } from "react-router-dom";
 import {
   AnimeDetails,
   Home,
-  AnimeMovies,
   Genres,
   MostPopular,
   TopAiring,
@@ -28,7 +27,6 @@ const App = () => {
           <Routes>
             <Route path='/' element={<Home />} />
             <Route path='/anime/:animeId/full' element={<AnimeDetails />} />
-            <Route path='/anime-movies/:aphKey' element={<AnimeMovies />} />
             <Route path='/popular' element={<MostPopular />} />
             <Route path='/genre/:genreTerm' element={<Genres />} />
             <Route path='/airing' element={<TopAiring />} />

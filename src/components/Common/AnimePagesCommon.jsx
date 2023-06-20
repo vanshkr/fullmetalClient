@@ -1,17 +1,16 @@
-import { useGetTopAnimeByTypeQuery } from "../redux/services/jikanApi";
-import Genres from "./Genres";
+import { useGetAnimePagesByTypeQuery } from "../../redux/services/jikanApi";
+import { Genres } from "../../pages";
 import { useState } from "react";
-import { TopCardContainer, PagePagination } from "../components";
+import TopCardContainer from "../CardLayout/TopCardContainer";
+import PagePagination from "../Pagination/PagePagination";
 
-import "./styles.css";
-
-const MostPopular = () => {
+const AnimePagesCommon = ({ path, heading }) => {
   const [pageNumber, setPageNumber] = useState(1);
-  const { data } = useGetTopAnimeByTypeQuery(["bypopularity", pageNumber, 25], {
+  const { data } = useGetAnimePagesByTypeQuery([path, pageNumber], {
     skip: false,
   });
   const pageCount = data?.pagination?.last_visible_page;
-
+  console.log(path, heading);
   const handlePageClick = (value) => {
     setPageNumber(value);
   };
@@ -19,7 +18,7 @@ const MostPopular = () => {
     <div className=' grid xl:grid-cols-12 md:mx-0 mx-3'>
       <div className=' xl:col-span-9 mb-4'>
         <div className=''>
-          <TopCardContainer containerName={"Most Popular"} data={data} />
+          <TopCardContainer containerName={heading} data={data} />
         </div>
         <div className='text-white flex  justify-center items-center  '>
           <PagePagination
@@ -35,4 +34,4 @@ const MostPopular = () => {
   );
 };
 
-export default MostPopular;
+export default AnimePagesCommon;

@@ -3,12 +3,13 @@ import { useState, useEffect } from "react";
 const Genres = () => {
   const [showAllGenres, setShowAllGenres] = useState(false);
 
-  const { data, error, isFetching, promise, refetch } = useGetAnimeGenresQuery(
-    "",
-    {
-      skip: false,
-    }
-  );
+  const { data, refetch } = useGetAnimeGenresQuery("", {
+    skip: false,
+  });
+  const genres = data?.data;
+
+  const displayedGenres = showAllGenres ? genres : genres?.slice(0, 24);
+
   useEffect(() => {
     let timeoutId;
     if (data === undefined) {
@@ -18,10 +19,7 @@ const Genres = () => {
     }
 
     return () => clearTimeout(timeoutId);
-  }, [isFetching]);
-
-  const genres = data?.data;
-  const displayedGenres = showAllGenres ? genres : genres?.slice(0, 24);
+  }, [data, refetch]);
 
   const toggleGenresVisibility = () => {
     setShowAllGenres(!showAllGenres);

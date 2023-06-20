@@ -18,12 +18,14 @@ import CardContainer from "./CardLayout/CardContainer";
 import WatchPagination from "./Pagination/WatchPagination";
 import PagePagination from "./Pagination/PagePagination";
 import Dropdown from "./Dropdown";
-import Common from "./Common";
+import AnimeDetailsCommon from "./Common/AnimeDetailsCommon";
+import AnimePagesCommon from "./Common/AnimePagesCommon";
 import TopCardContainer from "./CardLayout/TopCardContainer";
 
 export {
   CardContainer,
-  Common,
+  AnimeDetailsCommon,
+  AnimePagesCommon,
   WatchPagination,
   PagePagination,
   Dropdown,
