@@ -10,7 +10,6 @@ const AnimePagesCommon = ({ path, heading }) => {
     skip: false,
   });
   const pageCount = data?.pagination?.last_visible_page;
-  console.log(path, heading);
   const handlePageClick = (value) => {
     setPageNumber(value);
   };

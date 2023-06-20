@@ -9,14 +9,8 @@ import {
 import { Slider } from "../components";
 import Genres from "./Genres";
 import { Link } from "react-router-dom";
-
+import { componentArray } from "../assets/constants";
 const Home = () => {
-  const componentArray = [
-    ["Top Airing", <Airing />],
-    ["Most Popular", <Popular />],
-    ["Most Favorite", <Favorite />],
-    ["Completed", <Completed />],
-  ];
   return (
     <div className='w-full flex flex-col px-2'>
       <div className='w-full'>

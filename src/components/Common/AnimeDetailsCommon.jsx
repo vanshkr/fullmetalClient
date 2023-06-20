@@ -5,7 +5,6 @@ import { useState } from "react";
 
 const AnimeDetailsCommon = ({ newArr, path, imgUrl, value, data }) => {
   const [relatedAnimeVisible, setRelatedAnimeVisible] = useState(false);
-  console.log(newArr);
   const x = newArr?.map(({ id, animeName }) => (
     <DisplayCard
       id={id}

@@ -3,6 +3,11 @@ import { useGetAnimeGenresQuery } from "../redux/services/jikanApi";
 import { useState, useRef, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import "./styles.css";
+import {
+  colorArray,
+  tvSeriesOptions,
+  sidebarOptions,
+} from "../assets/constants";
 
 const Sidebar = () => {
   const [sidebar, setSidebar] = useState(false);
@@ -19,33 +24,6 @@ const Sidebar = () => {
   const genres = data?.data;
 
   const displayedGenres = showAllGenres ? genres : genres?.slice(0, 10);
-
-  const colorArray = [
-    "#778741",
-    "#FFBF5B",
-    "#C63F31",
-    "#CCA5D5",
-    "#7EBFD8",
-    "#D8B290",
-    "#86E3CE",
-  ];
-
-  const arr = [
-    ["Home", "/"],
-    ["Movies", "/movie"],
-    ["TV Series"],
-    ["OVAs", "/ova"],
-    ["ONAs", "/ona"],
-    ["Specials", "/special"],
-    ["Genre"],
-  ];
-
-  const tvSeriesOptions = [
-    ["Airing", "/airing"],
-    ["Upcoming", "/upcoming"],
-    ["Popular", "/popular"],
-    ["Favorite", "/favorite"],
-  ];
 
   const ref = useRef(null);
 
@@ -99,7 +77,7 @@ const Sidebar = () => {
             <AiOutlineClose className='ml-4 cursor-pointer' />
           </div>
           <ul className='mt-3 flex flex-wrap'>
-            {arr.map((item) => {
+            {sidebarOptions.map((item) => {
               return (
                 <li
                   className='text-lg block w-full border-b border-blackRibbon'

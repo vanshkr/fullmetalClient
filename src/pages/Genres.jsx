@@ -1,5 +1,6 @@
 import { useGetAnimeGenresQuery } from "../redux/services/jikanApi";
 import { useState, useEffect } from "react";
+import { colorArray } from "../assets/constants";
 const Genres = () => {
   const [showAllGenres, setShowAllGenres] = useState(false);
 
@@ -24,15 +25,7 @@ const Genres = () => {
   const toggleGenresVisibility = () => {
     setShowAllGenres(!showAllGenres);
   };
-  const colorArray = [
-    "#778741",
-    "#FFBF5B",
-    "#C63F31",
-    "#CCA5D5",
-    "#7EBFD8",
-    "#D8B290",
-    "#86E3CE",
-  ];
+
   return (
     <>
       <h3 className='font-semibold text-xl md:text-3xl text-drySeedlings mt-4 '>

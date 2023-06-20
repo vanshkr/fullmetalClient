@@ -3,8 +3,6 @@ import Genres from "./Genres";
 import { useState } from "react";
 import { TopCardContainer, PagePagination } from "../components";
 
-import "./styles.css";
-
 const MostPopular = () => {
   const [pageNumber, setPageNumber] = useState(1);
   const { data } = useGetTopAnimeByTypeQuery(["bypopularity", pageNumber, 25], {

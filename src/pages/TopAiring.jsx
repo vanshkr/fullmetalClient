@@ -3,8 +3,6 @@ import Genres from "./Genres";
 import { useEffect, useState } from "react";
 import { TopCardContainer, PagePagination } from "../components";
 
-import "./styles.css";
-
 const TopAiring = () => {
   const [pageNumber, setPageNumber] = useState(1);
   const { data, isFetching, refetch } = useGetTopAnimeByTypeQuery(

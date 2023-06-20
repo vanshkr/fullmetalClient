@@ -1,14 +1,7 @@
 import { RiAddFill } from "react-icons/ri";
 import { Link } from "react-router-dom";
-
+import { clamped } from "../../assets/constants";
 const DisplayCard = ({ id, animeName, url, path }) => {
-  const clamped = {
-    display: "-webkit-box",
-    WebkitBoxOrient: "vertical",
-    WebkitLineClamp: "2",
-    overflow: "hidden",
-  };
-
   return (
     <>
       <div className=' gap-6 flex p-3 w-full odd:bg-blackRibbon even:bg-napolean'>

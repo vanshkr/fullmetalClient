@@ -20,13 +20,6 @@ import H from "./TrendingImages/8.jpg";
 import I from "./TrendingImages/9.jpg";
 import J from "./TrendingImages/10.jpg";
 
-// export const links = [
-//   { name: "Home", to: "/", icon: HiOutlineHome },
-//   { name: "Anime Movies", to: "/top-artists", icon: HiOutlineUserGroup },
-//   { name: "Top Charts", to: "/top-charts", icon: HiOutlineHashtag },
-//   { name: "LogIn", to: "/log-in", icon: FiLogIn },
-//   { name: "Logout", to: "/log-out", icon: FiLogOut },
-// ];
 export const images = [
   {
     id: "ijiranaide-nagatoro-san-2nd-season",
@@ -112,35 +105,43 @@ export const trends = [
   { id: "", title: "", url: J },
 ];
 
-export const genres = [
-  { id: "1", name: "Action" },
-  { id: "2", name: "Adventure" },
-  { id: "4", name: "Comedy" },
-  { id: "5", name: "Avant Garde" },
-  { id: "7", name: "Mystery" },
-  { id: "8", name: "Drama" },
-  { id: "9", name: "Ecchi" },
-  { id: "10", name: "Fantasy" },
-  { id: "13", name: "Historical" },
-  { id: "14", name: "Horror" },
-  { id: "15", name: "Kids" },
-  { id: "17", name: "Martial Arts" },
-  { id: "18", name: "Mecha" },
-  { id: "19", name: "Music" },
-  { id: "20", name: "Parody" },
-  { id: "22", name: "Romance" },
-  { id: "24", name: "Sci-Fi" },
-  { id: "26", name: "Girls Love" },
-  { id: "27", name: "Shounene" },
-  { id: "28", name: "Boys Love" },
-  { id: "30", name: "Sports" },
-  { id: "36", name: "Slice of Life" },
-  { id: "37", name: "Supernatural" },
-  { id: "38", name: "Militiary" },
-  { id: "40", name: "Psychological" },
-  { id: "41", name: "Suspense" },
-  { id: "43", name: "Josei" },
-  { id: "46", name: "Award Winning" },
-  { id: "47", name: "Gourmet" },
-  { id: "62", name: "Isekai" },
+export const clamped = {
+  display: "-webkit-box",
+  WebkitBoxOrient: "vertical",
+  WebkitLineClamp: "2",
+  overflow: "hidden",
+};
+
+export const colorArray = [
+  "#778741",
+  "#FFBF5B",
+  "#C63F31",
+  "#CCA5D5",
+  "#7EBFD8",
+  "#D8B290",
+  "#86E3CE",
+];
+
+export const sidebarOptions = [
+  ["Home", "/"],
+  ["Movies", "/movie"],
+  ["TV Series"],
+  ["OVAs", "/ova"],
+  ["ONAs", "/ona"],
+  ["Specials", "/special"],
+  ["Genre"],
+];
+
+export const tvSeriesOptions = [
+  ["Airing", "/airing"],
+  ["Upcoming", "/upcoming"],
+  ["Popular", "/popular"],
+  ["Favorite", "/favorite"],
+];
+
+export const componentArray = [
+  ["Top Airing", <Airing />],
+  ["Most Popular", <Popular />],
+  ["Most Favorite", <Favorite />],
+  ["Completed", <Completed />],
 ];
