@@ -17,11 +17,14 @@ import Favorite from "./Favorite";
 import CardContainer from "./CardLayout/CardContainer";
 import WatchPagination from "./Pagination/WatchPagination";
 import PagePagination from "./Pagination/PagePagination";
-import Dropdown from "./Dropdown";
+import WatchDropdown from "./Dropdown/WatchDropdown";
+import FilterDropdown from "./Dropdown/FilterDropdown";
 import AnimeDetailsCommon from "./Common/AnimeDetailsCommon";
 import AnimePagesCommon from "./Common/AnimePagesCommon";
 import TopCardContainer from "./CardLayout/TopCardContainer";
 import Genres from "./Genres";
+import DateDropdown from "./Dropdown/DateDropdown";
+import GenreFilter from "./Dropdown/GenreFilter";
 
 export {
   CardContainer,
@@ -30,7 +33,9 @@ export {
   AnimePagesCommon,
   WatchPagination,
   PagePagination,
-  Dropdown,
+  WatchDropdown,
+  FilterDropdown,
+  DateDropdown,
   Airing,
   Completed,
   Favorite,
@@ -47,5 +52,6 @@ export {
   Trending,
   LatestEpisodes,
   Slider,
+  GenreFilter,
   DisplayCard,
 };

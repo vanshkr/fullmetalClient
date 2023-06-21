@@ -9,6 +9,7 @@ import {
 import { Slider } from "../components";
 import Genres from "../components/Genres";
 import { Link } from "react-router-dom";
+import { fields } from "../assets/constants";
 
 const Home = () => {
   const componentArray = [
@@ -17,6 +18,7 @@ const Home = () => {
     ["Most Favorite", <Favorite />],
     ["Completed", <Completed />],
   ];
+  console.log(fields);
   return (
     <div className='w-full flex flex-col px-2'>
       <div className='w-full'>

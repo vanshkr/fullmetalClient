@@ -36,7 +36,7 @@ const App = () => {
             <Route path='/special' element={<Specials />} />
             <Route path='/ova' element={<Ova />} />
             <Route path='/ona' element={<Ona />} />
-            <Route path='/search/:searchTerm' element={<Search />} />
+            <Route path='/search' element={<Search />} />
             <Route path='/anime/:id/episodes' element={<AnimeWatch />} />
           </Routes>
         </div>

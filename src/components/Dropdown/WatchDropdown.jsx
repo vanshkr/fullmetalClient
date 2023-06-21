@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
-const Dropdown = (data) => {
+const WatchDropdown = (data) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleDropdown = () => {
@@ -53,4 +53,4 @@ const Dropdown = (data) => {
   );
 };
 
-export default Dropdown;
+export default WatchDropdown;

@@ -138,3 +138,43 @@ export const tvSeriesOptions = [
   ["Popular", "/popular"],
   ["Favorite", "/favorite"],
 ];
+
+export const sortOrders = ["Desc", "Asc"];
+
+export const contentRatings = ["G", "PG", "PG13", "R17", "R", "RX"];
+export const orderAttributes = [
+  "Mal_id",
+  "Title",
+  "Type",
+  "Rating",
+  "Start_date",
+  "End_date",
+  "Episodes",
+  "Score",
+  "Scored_by",
+  "Rank",
+  "Popularity",
+  "Members",
+  "Favorites",
+];
+
+export const statuses = ["Airing", "Complete", "Upcoming"];
+
+export const types = ["Tv", "Movie", "Ova", "Special", "Ona", "Music"];
+
+export const fields = [
+  ["Type", types],
+  ["Status", statuses],
+  ["Rating", contentRatings],
+  ["OrderBy", orderAttributes],
+  ["Sort", sortOrders],
+];
+
+export const ratings = [
+  "G - All Ages",
+  "PG - Children",
+  "PG-13 - Teens 13 or older",
+  "R - 17+ (violence & profanity)",
+  "R+ - Mild Nudity",
+  "Rx - Hentai",
+];

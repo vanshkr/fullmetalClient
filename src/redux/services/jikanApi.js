@@ -42,6 +42,77 @@ export const jikanApi = createApi({
     getAnimeByGenre: builder.query({
       query: (genreId) => `/anime?genres=${genreId}&sfw&unapproved`,
     }),
+    getAnimeByFilterer: builder.query({
+      query: ([
+        page,
+        limit,
+        type,
+        score,
+        status,
+        rating,
+        genres,
+        orderBy,
+        sort,
+        letter,
+        start,
+        end,
+      ]) => {
+        const queryParams = [];
+
+        if (page) {
+          queryParams.push(`page=${page}`);
+        }
+
+        if (limit) {
+          queryParams.push(`limit=${limit}`);
+        }
+
+        if (type) {
+          queryParams.push(`type=${type}`);
+        }
+
+        if (score) {
+          queryParams.push(`score=${score}`);
+        }
+
+        if (status) {
+          queryParams.push(`status=${status}`);
+        }
+
+        if (rating) {
+          queryParams.push(`rating=${rating}`);
+        }
+
+        if (genres) {
+          const genresParams = genres.join(",");
+          queryParams.push(`genres=${genresParams}`);
+        }
+
+        if (orderBy) {
+          queryParams.push(`order_by=${orderBy}`);
+        }
+
+        if (sort) {
+          queryParams.push(`sort=${sort}`);
+        }
+
+        if (letter) {
+          queryParams.push(`letter=${letter}`);
+        }
+
+        if (start) {
+          queryParams.push(`start_date=${start}`);
+        }
+
+        if (end) {
+          queryParams.push(`end_date=${end}`);
+        }
+
+        const queryString =
+          queryParams.length > 0 ? `?${queryParams.join("&")}` : "";
+        return `/anime${queryString}`;
+      },
+    }),
   }),
 });
 

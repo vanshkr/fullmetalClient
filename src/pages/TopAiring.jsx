@@ -22,6 +22,7 @@ const TopAiring = () => {
 
     return () => clearTimeout(timeoutId);
   }, [data, refetch]);
+
   const handlePageClick = (value) => {
     setPageNumber(value);
   };
