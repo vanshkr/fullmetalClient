@@ -7,7 +7,7 @@ const FilterDropdown = ({ label, options, value, onValueChange }) => {
         onChange={(e) => onValueChange(e.target.value)}
         className={`text-drySeedlings bg-metalise appearance-none outline-none cursor-pointer text-center`}
       >
-        {label === "Sort" ? "" : <option value=''> "All"</option>}
+        {label === "Sort" ? "" : <option value=''> All</option>}
         {options.map((option, i) => (
           <option key={option} value={option}>
             {option}

@@ -10,7 +10,8 @@ const DateDropdown = ({
   const generateOptions = (start, end) => {
     const options = [];
     for (let i = start; i <= end; i++) {
-      options.push(i);
+      const value = i < 10 ? `0${i}` : `${i}`;
+      options.push(value);
     }
     return options;
   };

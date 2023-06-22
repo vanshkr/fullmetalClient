@@ -8,7 +8,7 @@ import { TopCardContainer, PagePagination } from "../components";
 const Search = () => {
   // State for filter section fields
 
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState(1);
   const [limit, setLimit] = useState("");
   const [type, setType] = useState("");
   const [score, setScore] = useState("");
@@ -19,8 +19,8 @@ const Search = () => {
   const [sort, setSort] = useState("");
   const [letter, setLetter] = useState("");
   const [visible, setVisible] = useState(false);
-  const [start, setStart] = useState("");
-  const [end, setEnd] = useState("");
+  const [start, setStart] = useState([]);
+  const [end, setEnd] = useState([]);
   const [startSelectedYear, setStartSelectedYear] = useState("");
   const [startSelectedMonth, setStartSelectedMonth] = useState("");
   const [startSelectedDay, setStartSelectedDay] = useState("");
@@ -69,8 +69,6 @@ const Search = () => {
     },
   ];
 
-  console.log(data);
-
   const handleTrigger = () => {
     trigger([
       // Pass your filter data here
@@ -103,6 +101,22 @@ const Search = () => {
     );
   };
   const handleSearch = () => {
+    let startDate = [];
+    let endDate = [];
+
+    if (startSelectedYear && startSelectedMonth && startSelectedDay)
+      startDate = [
+        ...startDate,
+        startSelectedYear,
+        startSelectedMonth,
+        startSelectedDay,
+      ];
+
+    if (endSelectedYear && endSelectedMonth && endSelectedDay)
+      endDate = [...endDate, endSelectedYear, endSelectedMonth, endSelectedDay];
+    console.log(endDate, startDate);
+    setStart(startDate);
+    setEnd(endDate);
     handleTrigger();
   };
   const handleDropdownChange = (index, value) => {
@@ -117,7 +131,7 @@ const Search = () => {
       setGenres([...genres, selectedGenreId]);
     }
   };
-
+  console.log(data);
   const handleLetterChange = (event) => {
     const inputValue = event.target.value.toLowerCase();
     const isValidInput = /^[a-z]$/.test(inputValue);
@@ -141,8 +155,8 @@ const Search = () => {
 
   return (
     <div className='bg-nobleBlack p-4 w-full'>
-      <div className='flex flex-col justify-between w-full bg-metalise rounded-xl'>
-        <div className='p-4 md:p-6 xl:p-8'>
+      <div className='flex flex-col justify-between bg-metalise rounded-xl'>
+        <div className='p-4 md:p-6 xl:p-8 w-full'>
           <h2 className='text-white text-sm mb-6'>Filter</h2>
           <div className='flex flex-col gap-2'>
             <div className='flex flex-wrap'>
@@ -204,8 +218,16 @@ const Search = () => {
             onGenreSelect={handleGenreSelect}
           />
         </div>
+        <div className='p-4 md:p-6 xl:p-8'>
+          <button
+            className='bg-drySeedlings font-bold text-nobleBlack w-fit p-2 text-center rounded-lg'
+            onClick={handleSearch}
+          >
+            Filter
+          </button>
+        </div>
       </div>
-      <button onClick={handleSearch}>Search</button>
+
       <div>
         <div className=''>
           <TopCardContainer containerName={"Filter Results"} data={data} />

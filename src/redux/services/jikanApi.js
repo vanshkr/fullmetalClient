@@ -83,7 +83,7 @@ export const jikanApi = createApi({
           queryParams.push(`rating=${rating}`);
         }
 
-        if (genres) {
+        if (genres.length > 0) {
           const genresParams = genres.join(",");
           queryParams.push(`genres=${genresParams}`);
         }
@@ -100,12 +100,14 @@ export const jikanApi = createApi({
           queryParams.push(`letter=${letter}`);
         }
 
-        if (start) {
-          queryParams.push(`start_date=${start}`);
+        if (start.length === 3) {
+          const date = start.join("-");
+          queryParams.push(`start_date=${date}`);
         }
 
-        if (end) {
-          queryParams.push(`end_date=${end}`);
+        if (end.length === 3) {
+          const date = end.join("-");
+          queryParams.push(`end_date=${date}`);
         }
 
         const queryString =

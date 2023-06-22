@@ -30,7 +30,11 @@ const GenreFilter = ({ activeGenres, onGenreSelect }) => {
             <div
               key={item.mal_id}
               onClick={() => onGenreSelect(item?.mal_id)}
-              className='text-xs font-mono text-white  hover:text-drySeedlings  cursor-pointer text-center border-2 border-lilacChampagne   p-2 rounded-lg'
+              className={`text-xs font-mono   ${
+                activeGenres.includes(item?.mal_id)
+                  ? " text-drySeedlings border-drySeedlings bg-opacity-10 bg-drySeedlings "
+                  : "bg-metalise text-lilacChampagne hover:text-drySeedlings border-lilacChampagne "
+              }   cursor-pointer text-center border-2    p-2 rounded-lg`}
             >
               {item.name}
             </div>
