@@ -11,6 +11,7 @@ const TopAiring = () => {
       skip: false,
     }
   );
+  console.log(data);
   const pageCount = data?.pagination?.last_visible_page;
   useEffect(() => {
     let timeoutId;

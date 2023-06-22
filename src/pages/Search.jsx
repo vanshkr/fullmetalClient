@@ -7,8 +7,8 @@ import { TopCardContainer, PagePagination } from "../components";
 
 const Search = () => {
   // State for filter section fields
-  const [pageNumber, setPageNumber] = useState(1);
-  const [page, setPage] = useState("");
+
+  const [page, setPage] = useState(0);
   const [limit, setLimit] = useState("");
   const [type, setType] = useState("");
   const [score, setScore] = useState("");
@@ -33,23 +33,9 @@ const Search = () => {
     // IIFE (Immediately Invoked Function Expression)
     (() => {
       // Your code here
-      trigger([
-        // Pass your filter data here
-        page,
-        limit,
-        type,
-        score,
-        status,
-        rating,
-        genres,
-        orderBy,
-        sort,
-        letter,
-        start,
-        end,
-      ]);
+      handleTrigger();
     })();
-  }, []);
+  }, [page]);
   const dropdownData = [
     {
       label: fields[0][0],
@@ -84,7 +70,8 @@ const Search = () => {
   ];
 
   console.log(data);
-  const handleSearch = () => {
+
+  const handleTrigger = () => {
     trigger([
       // Pass your filter data here
       page,
@@ -100,19 +87,34 @@ const Search = () => {
       start,
       end,
     ]);
+    console.log(
+      page,
+      limit,
+      type,
+      score,
+      status,
+      rating,
+      genres,
+      orderBy,
+      sort,
+      letter,
+      start,
+      end
+    );
+  };
+  const handleSearch = () => {
+    handleTrigger();
   };
   const handleDropdownChange = (index, value) => {
     const { setState } = dropdownData[index];
     setState(value);
   };
 
-  const handleGenreSelect = (selectedGenre) => {
-    if (selectedGenres.includes(selectedGenre)) {
-      setSelectedGenres(
-        selectedGenres.filter((genre) => genre !== selectedGenre)
-      );
+  const handleGenreSelect = (selectedGenreId) => {
+    if (genres.includes(selectedGenreId)) {
+      setGenres(genres.filter((genre) => genre !== selectedGenreId));
     } else {
-      setSelectedGenres([...selectedGenres, selectedGenre]);
+      setGenres([...genres, selectedGenreId]);
     }
   };
 
@@ -134,7 +136,7 @@ const Search = () => {
   };
   const pageCount = data?.pagination?.last_visible_page;
   const handlePageClick = (value) => {
-    setPageNumber(value);
+    setPage(value);
   };
 
   return (
@@ -197,13 +199,16 @@ const Search = () => {
               />
             </div>
           </div>
-          <GenreFilter />
+          <GenreFilter
+            activeGenres={genres}
+            onGenreSelect={handleGenreSelect}
+          />
         </div>
       </div>
       <button onClick={handleSearch}>Search</button>
       <div>
         <div className=''>
-          <TopCardContainer containerName={"Top Airing"} data={data} />
+          <TopCardContainer containerName={"Filter Results"} data={data} />
         </div>
         <div className='text-white flex  justify-center items-center  '>
           <PagePagination

@@ -4,7 +4,7 @@ import { colorArray } from "../../assets/constants";
 import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { RiDriveFill } from "react-icons/ri";
-const GenreFilter = () => {
+const GenreFilter = ({ activeGenres, onGenreSelect }) => {
   const { data, refetch } = useGetAnimeGenresQuery("", {
     skip: false,
   });
@@ -29,6 +29,7 @@ const GenreFilter = () => {
           {genres?.map((item, ind) => (
             <div
               key={item.mal_id}
+              onClick={() => onGenreSelect(item?.mal_id)}
               className='text-xs font-mono text-white  hover:text-drySeedlings  cursor-pointer text-center border-2 border-lilacChampagne   p-2 rounded-lg'
             >
               {item.name}
