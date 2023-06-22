@@ -1,10 +1,13 @@
 import React, { useState } from "react";
 import { FilterDropdown, DateDropdown, GenreFilter } from "../components";
 import { fields } from "../assets/constants";
-// Replace with your dropdown component
+import { useLazyGetAnimeByFilterQuery } from "../redux/services/jikanApi";
+import { useEffect } from "react";
+import { TopCardContainer, PagePagination } from "../components";
 
 const Search = () => {
   // State for filter section fields
+  const [pageNumber, setPageNumber] = useState(1);
   const [page, setPage] = useState("");
   const [limit, setLimit] = useState("");
   const [type, setType] = useState("");
@@ -25,6 +28,28 @@ const Search = () => {
   const [endSelectedMonth, setEndSelectedMonth] = useState("");
   const [endSelectedDay, setEndSelectedDay] = useState("");
 
+  const [trigger, { data }] = useLazyGetAnimeByFilterQuery();
+  useEffect(() => {
+    // IIFE (Immediately Invoked Function Expression)
+    (() => {
+      // Your code here
+      trigger([
+        // Pass your filter data here
+        page,
+        limit,
+        type,
+        score,
+        status,
+        rating,
+        genres,
+        orderBy,
+        sort,
+        letter,
+        start,
+        end,
+      ]);
+    })();
+  }, []);
   const dropdownData = [
     {
       label: fields[0][0],
@@ -58,6 +83,24 @@ const Search = () => {
     },
   ];
 
+  console.log(data);
+  const handleSearch = () => {
+    trigger([
+      // Pass your filter data here
+      page,
+      limit,
+      type,
+      score,
+      status,
+      rating,
+      genres,
+      orderBy,
+      sort,
+      letter,
+      start,
+      end,
+    ]);
+  };
   const handleDropdownChange = (index, value) => {
     const { setState } = dropdownData[index];
     setState(value);
@@ -71,20 +114,6 @@ const Search = () => {
     } else {
       setSelectedGenres([...selectedGenres, selectedGenre]);
     }
-  };
-
-  const handleSearch = () => {
-    console.log("Performing search...");
-    console.log("Type:", type);
-    console.log("Status:", status);
-    console.log("Rated:", rated);
-    console.log("Score:", score);
-    console.log("Season:", season);
-    console.log("Language:", language);
-    console.log("Start Date:", startDate);
-    console.log("End Date:", endDate);
-    console.log("Sort:", sort);
-    console.log("Genres:", selectedGenres);
   };
 
   const handleLetterChange = (event) => {
@@ -103,6 +132,11 @@ const Search = () => {
       setVisible(false);
     }
   };
+  const pageCount = data?.pagination?.last_visible_page;
+  const handlePageClick = (value) => {
+    setPageNumber(value);
+  };
+
   return (
     <div className='bg-nobleBlack p-4 w-full'>
       <div className='flex flex-col justify-between w-full bg-metalise rounded-xl'>
@@ -167,35 +201,19 @@ const Search = () => {
         </div>
       </div>
       <button onClick={handleSearch}>Search</button>
+      <div>
+        <div className=''>
+          <TopCardContainer containerName={"Top Airing"} data={data} />
+        </div>
+        <div className='text-white flex  justify-center items-center  '>
+          <PagePagination
+            pageCount={pageCount}
+            onPageChange={handlePageClick}
+          />
+        </div>
+      </div>
     </div>
   );
 };
 
 export default Search;
-
-// <div className='flex flex-wrap'>
-// <h2>Date</h2>
-// <div>
-//   <input
-//     type='text'
-//     value={startDate}
-//     onChange={(e) => setStartDate(e.target.value)}
-//     placeholder='Start Date'
-//   />
-// </div>
-//  </div>
-//  <div className='flex flex-wrap'>
-//  <h2>Genre</h2>
-//  <div className='flex flex-wrap'>
-//    {Array.from({ length: 76 }, (_, index) => (
-//      <label key={index}>
-//        <input
-//          type='checkbox'
-//          checked={selectedGenres.includes(index)}
-//          onChange={() => handleGenreSelect(index)}
-//        />
-//        Genre {index + 1}
-//      </label>
-//    ))}
-//  </div>
-//  </div>

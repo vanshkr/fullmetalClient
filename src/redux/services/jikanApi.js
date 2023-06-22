@@ -42,7 +42,7 @@ export const jikanApi = createApi({
     getAnimeByGenre: builder.query({
       query: (genreId) => `/anime?genres=${genreId}&sfw&unapproved`,
     }),
-    getAnimeByFilterer: builder.query({
+    getAnimeByFilter: builder.query({
       query: ([
         page,
         limit,
@@ -128,4 +128,5 @@ export const {
   useGetUpcomingAnimeQuery,
   useGetTrendingAnimeQuery,
   useGetAnimeByGenreQuery,
+  useLazyGetAnimeByFilterQuery,
 } = jikanApi;
