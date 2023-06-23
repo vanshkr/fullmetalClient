@@ -4,10 +4,10 @@ import { fields } from "../assets/constants";
 import { useLazyGetAnimeByFilterQuery } from "../redux/services/jikanApi";
 import { useEffect } from "react";
 import { TopCardContainer, PagePagination } from "../components";
+import Calendar from "react-calendar";
+import "./styles.css";
 
 const Search = () => {
-  // State for filter section fields
-
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState("");
   const [type, setType] = useState("");
@@ -19,23 +19,14 @@ const Search = () => {
   const [sort, setSort] = useState("");
   const [letter, setLetter] = useState("");
   const [visible, setVisible] = useState(false);
-  const [start, setStart] = useState([]);
-  const [end, setEnd] = useState([]);
-  const [startSelectedYear, setStartSelectedYear] = useState("");
-  const [startSelectedMonth, setStartSelectedMonth] = useState("");
-  const [startSelectedDay, setStartSelectedDay] = useState("");
-  const [endSelectedYear, setEndSelectedYear] = useState("");
-  const [endSelectedMonth, setEndSelectedMonth] = useState("");
-  const [endSelectedDay, setEndSelectedDay] = useState("");
+  const [start, setStart] = useState("");
+  const [end, setEnd] = useState("");
 
   const [trigger, { data }] = useLazyGetAnimeByFilterQuery();
   useEffect(() => {
-    // IIFE (Immediately Invoked Function Expression)
-    (() => {
-      // Your code here
-      handleTrigger();
-    })();
+    handleTrigger();
   }, [page]);
+
   const dropdownData = [
     {
       label: fields[0][0],
@@ -101,22 +92,7 @@ const Search = () => {
     );
   };
   const handleSearch = () => {
-    let startDate = [];
-    let endDate = [];
-
-    if (startSelectedYear && startSelectedMonth && startSelectedDay)
-      startDate = [
-        ...startDate,
-        startSelectedYear,
-        startSelectedMonth,
-        startSelectedDay,
-      ];
-
-    if (endSelectedYear && endSelectedMonth && endSelectedDay)
-      endDate = [...endDate, endSelectedYear, endSelectedMonth, endSelectedDay];
-    console.log(endDate, startDate);
-    setStart(startDate);
-    setEnd(endDate);
+    setPage(1);
     handleTrigger();
   };
   const handleDropdownChange = (index, value) => {
@@ -152,7 +128,24 @@ const Search = () => {
   const handlePageClick = (value) => {
     setPage(value);
   };
-
+  const [isStartCalendarOpen, setIsStartCalendarOpen] = useState(false);
+  const [isEndCalendarOpen, setIsEndCalendarOpen] = useState(false);
+  const handleStartDateChange = (date) => {
+    const x = date.toISOString().substr(0, 10);
+    setStart(x);
+    setIsStartCalendarOpen(false);
+  };
+  const handleEndDateChange = (date) => {
+    const x = date.toISOString().substr(0, 10);
+    setEnd(x);
+    setIsEndCalendarOpen(false);
+  };
+  const handleStartInputClick = () => {
+    setIsStartCalendarOpen(!isStartCalendarOpen);
+  };
+  const handleEndInputClick = () => {
+    setIsEndCalendarOpen(!isEndCalendarOpen);
+  };
   return (
     <div className='bg-nobleBlack p-4 w-full'>
       <div className='flex flex-col justify-between bg-metalise rounded-xl'>
@@ -192,25 +185,51 @@ const Search = () => {
                 </p>
               )}
             </div>
-            <div className='flex flex-wrap'>
-              <DateDropdown
-                label={"Start Date"}
-                selectedYear={startSelectedYear}
-                selectedMonth={startSelectedMonth}
-                selectedDay={startSelectedDay}
-                onYearChange={(value) => setStartSelectedYear(value)}
-                onMonthChange={(value) => setStartSelectedMonth(value)}
-                onDayChange={(value) => setStartSelectedDay(value)}
-              />
-              <DateDropdown
-                label={"End Date"}
-                selectedYear={endSelectedYear}
-                selectedMonth={endSelectedMonth}
-                selectedDay={endSelectedDay}
-                onYearChange={(value) => setEndSelectedYear(value)}
-                onMonthChange={(value) => setEndSelectedMonth(value)}
-                onDayChange={(value) => setEndSelectedDay(value)}
-              />
+            <div className='flex flex-wrap md:flex-nowrap'>
+              <div className='relative'>
+                <div className='border-2 h-fit w-fit text-xs border-lilacChampagne xl:mx-8 m-1 md:m-4  p-2 rounded-lg'>
+                  <label htmlFor='date' className='text-white mr-6 '>
+                    {" "}
+                    Start Date:
+                  </label>
+                  <input
+                    id='date'
+                    type='text'
+                    value={start}
+                    onClick={handleStartInputClick}
+                    placeholder='yyyy-mm-dd'
+                    readOnly
+                  />
+                </div>
+                {isStartCalendarOpen && (
+                  <div className='absolute ml-6 top-full z-10'>
+                    <Calendar
+                      value={start}
+                      onClickDay={handleStartDateChange}
+                    />
+                  </div>
+                )}
+              </div>
+              <div className='relative'>
+                <div className='border-2 h-fit w-fit text-xs border-lilacChampagne xl:mx-8 m-1 md:m-4  p-2 rounded-lg'>
+                  <label className='text-white mr-6 ' htmlFor='date'>
+                    End Date:
+                  </label>
+                  <input
+                    id='date'
+                    type='text'
+                    value={end}
+                    onClick={handleEndInputClick}
+                    placeholder='yyyy-mm-dd'
+                    readOnly
+                  />
+                </div>
+                {isEndCalendarOpen && (
+                  <div className='absolute ml-6 top-full '>
+                    <Calendar value={end} onChange={handleEndDateChange} />
+                  </div>
+                )}
+              </div>
             </div>
           </div>
           <GenreFilter

@@ -100,14 +100,12 @@ export const jikanApi = createApi({
           queryParams.push(`letter=${letter}`);
         }
 
-        if (start.length === 3) {
-          const date = start.join("-");
-          queryParams.push(`start_date=${date}`);
+        if (start) {
+          queryParams.push(`start_date=${start}`);
         }
 
-        if (end.length === 3) {
-          const date = end.join("-");
-          queryParams.push(`end_date=${date}`);
+        if (end) {
+          queryParams.push(`end_date=${end}`);
         }
 
         const queryString =
