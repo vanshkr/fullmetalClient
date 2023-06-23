@@ -18,7 +18,6 @@ const Home = () => {
     ["Most Favorite", <Favorite />],
     ["Completed", <Completed />],
   ];
-  console.log(fields);
   return (
     <div className='w-full flex flex-col px-2'>
       <div className='w-full'>

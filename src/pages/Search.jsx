@@ -76,20 +76,6 @@ const Search = () => {
       start,
       end,
     ]);
-    console.log(
-      page,
-      limit,
-      type,
-      score,
-      status,
-      rating,
-      genres,
-      orderBy,
-      sort,
-      letter,
-      start,
-      end
-    );
   };
   const handleSearch = () => {
     setPage(1);
@@ -107,7 +93,7 @@ const Search = () => {
       setGenres([...genres, selectedGenreId]);
     }
   };
-  console.log(data);
+
   const handleLetterChange = (event) => {
     const inputValue = event.target.value.toLowerCase();
     const isValidInput = /^[a-z]$/.test(inputValue);
@@ -150,8 +136,8 @@ const Search = () => {
     <div className='bg-nobleBlack p-4 w-full'>
       <div className='flex flex-col justify-between bg-metalise rounded-xl'>
         <div className='p-4 md:p-6 xl:p-8 w-full'>
-          <h2 className='text-white text-sm mb-6'>Filter</h2>
-          <div className='flex flex-col gap-2'>
+          <h2 className='text-white text-lg mb-2'>Filter</h2>
+          <div className='flex flex-col gap-1'>
             <div className='flex flex-wrap'>
               {dropdownData?.map((dropdown, index) => (
                 <FilterDropdown
@@ -237,7 +223,7 @@ const Search = () => {
             onGenreSelect={handleGenreSelect}
           />
         </div>
-        <div className='p-4 md:p-6 xl:p-8'>
+        <div className='px-4 md:px-6 xl:px-8 py-2'>
           <button
             className='bg-drySeedlings font-bold text-nobleBlack w-fit p-2 text-center rounded-lg'
             onClick={handleSearch}

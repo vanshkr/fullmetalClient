@@ -86,6 +86,7 @@ const AnimeWatch = () => {
                   onPageChange={handlePageChange}
                   onEpisodeChange={handleEpsiodeChange}
                   firstPageItems={pageNumber}
+                  animeId={id}
                 />
               </div>
               <div className='xl:col-span-9 overflow-auto  xl:order-2 order-1 min-h-[340px]'>

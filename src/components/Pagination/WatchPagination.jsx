@@ -1,7 +1,7 @@
 import React, { useState, useRef } from "react";
 
 import { Link } from "react-router-dom";
-const WatchPagination = ({ data, onPageChange, onEpisodeChange }) => {
+const WatchPagination = ({ animeId, data, onPageChange, onEpisodeChange }) => {
   const itemsPerPage = data?.data?.length;
   const initialItems = useRef(100);
   const totalPages = data?.pagination?.last_visible_page;

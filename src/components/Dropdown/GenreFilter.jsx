@@ -1,14 +1,13 @@
 import { useGetAnimeGenresQuery } from "../../redux/services/jikanApi";
 import { useState, useEffect } from "react";
-import { colorArray } from "../../assets/constants";
-import { Link } from "react-router-dom";
-import { useParams } from "react-router-dom";
-import { RiDriveFill } from "react-icons/ri";
+
 const GenreFilter = ({ activeGenres, onGenreSelect }) => {
+  const [showAllGenres, setShowAllGenres] = useState(false);
   const { data, refetch } = useGetAnimeGenresQuery("", {
     skip: false,
   });
   const genres = data?.data;
+  const displayedGenres = showAllGenres ? genres : genres?.slice(0, 24);
 
   useEffect(() => {
     let timeoutId;
@@ -20,13 +19,15 @@ const GenreFilter = ({ activeGenres, onGenreSelect }) => {
 
     return () => clearTimeout(timeoutId);
   }, [data, refetch]);
-
+  const toggleGenresVisibility = () => {
+    setShowAllGenres(!showAllGenres);
+  };
   return (
     <div className='my-6'>
       <h2 className=' text-white mt-4 text-sm '>Genres</h2>
       <div className='rounded-lg mt-6 bg-metalise px-2'>
         <div className=' flex flex-wrap gap-2 '>
-          {genres?.map((item, ind) => (
+          {displayedGenres?.map((item, ind) => (
             <div
               key={item.mal_id}
               onClick={() => onGenreSelect(item?.mal_id)}
@@ -39,6 +40,12 @@ const GenreFilter = ({ activeGenres, onGenreSelect }) => {
               {item.name}
             </div>
           ))}
+          <div
+            className=' my-2 cursor-pointer font-semibold  text-white text-md '
+            onClick={toggleGenresVisibility}
+          >
+            {showAllGenres ? "- Show Less" : "+ Show More"}
+          </div>
         </div>
       </div>
     </div>
