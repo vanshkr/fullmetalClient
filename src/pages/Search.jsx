@@ -1,37 +1,27 @@
 import React, { useState } from "react";
-import { FilterDropdown, DateDropdown, GenreFilter } from "../components";
+import { FilterDropdown, GenreFilter } from "../components";
 import { fields } from "../assets/constants";
 import { useLazyGetAnimeByFilterQuery } from "../redux/services/jikanApi";
 import { useEffect } from "react";
 import { TopCardContainer, PagePagination } from "../components";
 import Calendar from "react-calendar";
-import "./styles.css";
-import {
-  useLocation,
-  useSearchParams,
-  useParams,
-  useNavigate,
-} from "react-router-dom";
+
+import { useLocation } from "react-router-dom";
 
 const Search = () => {
   const location = useLocation();
-  const [searchParams] = useSearchParams();
 
   const getQueryParam = (param) => {
-    const value = new URLSearchParams(searchParams).get(param);
+    const value = new URLSearchParams(location.search).get(param);
     return value ? value : "";
   };
   const [page, setPage] = useState(() => {
-    const pageParam = new URLSearchParams(searchParams).get("page");
-    const value = parseInt(pageParam, 10);
+    const pageParam = new URLSearchParams(location.search).get("page");
+    const value = pageParam ? parseInt(pageParam, 10) : 1;
     return value;
   });
   const [limit, setLimit] = useState("");
-  const [type, setType] = useState(() => {
-    const param = new URLSearchParams(searchParams).get("type");
-
-    return param ? param : "";
-  });
+  const [type, setType] = useState(getQueryParam("type"));
   const [clicked, setClicked] = useState(false);
   const [score, setScore] = useState(getQueryParam("score"));
   const [status, setStatus] = useState(getQueryParam("status"));
@@ -42,7 +32,7 @@ const Search = () => {
   const [start, setStart] = useState(getQueryParam("start"));
   const [end, setEnd] = useState(getQueryParam("end"));
   const [genres, setGenres] = useState(() => {
-    const param = new URLSearchParams(searchParams).get("genres");
+    const param = new URLSearchParams(location.search).get("genres");
     const value = param?.split(",").map(Number);
     return value?.length > 0 ? value : [];
   });
@@ -153,12 +143,8 @@ const Search = () => {
     ]);
   };
   const handleSearch = () => {
-    setPage(() => {
-      return 1;
-    });
-    setClicked((prev) => {
-      return !prev;
-    });
+    setPage(1);
+    setClicked((prev) => !prev);
     handleTrigger();
   };
   const handleDropdownChange = (index, value) => {
@@ -195,7 +181,6 @@ const Search = () => {
     setPage(() => {
       return value;
     });
-    handleTrigger();
   };
   const [isStartCalendarOpen, setIsStartCalendarOpen] = useState(false);
   const [isEndCalendarOpen, setIsEndCalendarOpen] = useState(false);
