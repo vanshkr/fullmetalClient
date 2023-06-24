@@ -1,10 +1,11 @@
 import ReactPaginate from "react-paginate";
 import "../styles.css";
 
-const PagePagination = ({ pageCount, onPageChange }) => {
+const PagePagination = ({ value, pageCount, onPageChange }) => {
   const handlePageClick = (selectedPage) => {
     onPageChange(selectedPage.selected + 1);
   };
+  console.log(value);
   return (
     <ReactPaginate
       className='flex justify-center mt-2'
@@ -23,6 +24,7 @@ const PagePagination = ({ pageCount, onPageChange }) => {
       previousLinkClassName={"page-link"}
       nextLinkClassName={"page-link"}
       activeClassName={"active"}
+      initialPage={value - 1}
     />
   );
 };

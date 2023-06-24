@@ -11,10 +11,12 @@ import Specials from "./Specials";
 import Upcoming from "./Upcoming";
 import MostFavorite from "./MostFavorite";
 import Genre from "./Genre";
+import Sign from "./Sign";
 
 export {
   AnimeDetails,
   Home,
+  Sign,
   Genre,
   Search,
   MostPopular,

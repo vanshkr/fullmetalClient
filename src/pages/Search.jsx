@@ -6,26 +6,97 @@ import { useEffect } from "react";
 import { TopCardContainer, PagePagination } from "../components";
 import Calendar from "react-calendar";
 import "./styles.css";
+import { useLocation, useSearchParams, useParams } from "react-router-dom";
 
 const Search = () => {
-  const [page, setPage] = useState(1);
+  const location = useLocation();
+  const getQueryParam = (param) => {
+    const value = new URLSearchParams(location.search).get(param);
+    return value ? value : "";
+  };
+  const [page, setPage] = useState(() => {
+    const pageParam = new URLSearchParams(location.search).get("page");
+    const value = pageParam ? parseInt(pageParam, 10) : 1;
+    return value;
+  });
   const [limit, setLimit] = useState("");
-  const [type, setType] = useState("");
-  const [score, setScore] = useState("");
-  const [status, setStatus] = useState("");
-  const [rating, setRating] = useState("");
-  const [genres, setGenres] = useState([]);
-  const [orderBy, setOrderBy] = useState("");
-  const [sort, setSort] = useState("");
-  const [letter, setLetter] = useState("");
+  const [type, setType] = useState(() => {
+    const param = new URLSearchParams(location.search).get("type");
+
+    return param ? param : "";
+  });
+  const [clicked, setClicked] = useState(false);
+  const [score, setScore] = useState(getQueryParam("score"));
+  const [status, setStatus] = useState(getQueryParam("status"));
+  const [rating, setRating] = useState(getQueryParam("rating"));
+  const [orderBy, setOrderBy] = useState(getQueryParam("orderBy"));
+  const [sort, setSort] = useState(getQueryParam("sort"));
+  const [letter, setLetter] = useState(getQueryParam("letter"));
+  const [start, setStart] = useState(getQueryParam("start"));
+  const [end, setEnd] = useState(getQueryParam("end"));
+  const [genres, setGenres] = useState(() => {
+    const param = new URLSearchParams(location.search).get("genres");
+    const value = param?.split(",").map(Number);
+    return value?.length > 0 ? value : [];
+  });
+
   const [visible, setVisible] = useState(false);
-  const [start, setStart] = useState("");
-  const [end, setEnd] = useState("");
+
+  const [searchParams] = useSearchParams();
 
   const [trigger, { data }] = useLazyGetAnimeByFilterQuery();
   useEffect(() => {
     handleTrigger();
   }, [page]);
+
+  useEffect(() => {
+    const updatedSearchParams = new URLSearchParams(location.search);
+
+    page
+      ? updatedSearchParams.set("page", page)
+      : updatedSearchParams.delete("page");
+
+    type
+      ? updatedSearchParams.set("type", type.toString())
+      : updatedSearchParams.delete("type");
+
+    score
+      ? updatedSearchParams.set("score", score.toString())
+      : updatedSearchParams.delete("score");
+    status
+      ? updatedSearchParams.set("status", status.toString())
+      : updatedSearchParams.delete("status");
+    rating
+      ? updatedSearchParams.set("rating", rating.toString())
+      : updatedSearchParams.delete("rating");
+    orderBy
+      ? updatedSearchParams.set("orderBy", orderBy.toString())
+      : updatedSearchParams.delete("orderBy");
+    sort
+      ? updatedSearchParams.set("sort", sort.toString())
+      : updatedSearchParams.delete("sort");
+    letter
+      ? updatedSearchParams.set("letter", letter.toString())
+      : updatedSearchParams.delete("letter");
+    start
+      ? updatedSearchParams.set("start", start.toString())
+      : updatedSearchParams.delete("start");
+    end
+      ? updatedSearchParams.set("end", end.toString())
+      : updatedSearchParams.delete("end");
+
+    if (genres.length > 0) {
+      updatedSearchParams.set("genres", genres.join(",").toString());
+    } else {
+      updatedSearchParams.delete("genres");
+    }
+
+    const search = updatedSearchParams.toString()
+      ? `?${updatedSearchParams.toString()}`
+      : "";
+
+    window.history.replaceState(null, "", search);
+  }, [page, clicked, location.search]);
 
   const dropdownData = [
     {
@@ -79,6 +150,7 @@ const Search = () => {
   };
   const handleSearch = () => {
     setPage(1);
+    setClicked((prev) => !prev);
     handleTrigger();
   };
   const handleDropdownChange = (index, value) => {
@@ -132,6 +204,21 @@ const Search = () => {
   const handleEndInputClick = () => {
     setIsEndCalendarOpen(!isEndCalendarOpen);
   };
+
+  console.log(
+    page,
+    limit,
+    type,
+    score,
+    status,
+    rating,
+    genres,
+    orderBy,
+    sort,
+    letter,
+    start,
+    end
+  );
   return (
     <div className='bg-nobleBlack p-4 w-full'>
       <div className='flex flex-col justify-between bg-metalise rounded-xl'>
@@ -239,6 +326,7 @@ const Search = () => {
         </div>
         <div className='text-white flex  justify-center items-center  '>
           <PagePagination
+            value={page}
             pageCount={pageCount}
             onPageChange={handlePageClick}
           />

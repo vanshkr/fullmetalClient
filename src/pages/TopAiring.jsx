@@ -2,6 +2,7 @@ import { useGetTopAnimeByTypeQuery } from "../redux/services/jikanApi";
 import Genres from "../components/Genres";
 import { useEffect, useState } from "react";
 import { TopCardContainer, PagePagination } from "../components";
+import { useParams, useLocation } from "react-router-dom";
 
 const TopAiring = () => {
   const [pageNumber, setPageNumber] = useState(1);
@@ -11,7 +12,8 @@ const TopAiring = () => {
       skip: false,
     }
   );
-  console.log(data);
+
+  console.log(useParams());
   const pageCount = data?.pagination?.last_visible_page;
   useEffect(() => {
     let timeoutId;
@@ -36,6 +38,7 @@ const TopAiring = () => {
         <div className='text-white flex  justify-center items-center  '>
           <PagePagination
             pageCount={pageCount}
+            value={pageNumber}
             onPageChange={handlePageClick}
           />
         </div>

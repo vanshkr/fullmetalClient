@@ -19,7 +19,9 @@ const Navbar = () => {
           <AiOutlineSearch className=' cursor-pointer' />
         </Link>
         <IoIosNotificationsOutline className='cursor-pointer' />
-        <HiOutlineUserCircle className=' cursor-pointer mr-4' />
+        <Link to={`/log`}>
+          <HiOutlineUserCircle className=' cursor-pointer mr-4' />
+        </Link>
       </div>
     </div>
   );

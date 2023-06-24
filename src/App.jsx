@@ -13,6 +13,7 @@ import {
   Specials,
   MostFavorite,
   Upcoming,
+  Sign,
 } from "./pages";
 import { Navbar } from "./components";
 
@@ -37,10 +38,8 @@ const App = () => {
             <Route path='/ova' element={<Ova />} />
             <Route path='/ona' element={<Ona />} />
             <Route path='/search' element={<Search />} />
-            <Route
-              path='/anime/:id/episodes/:episode?'
-              element={<AnimeWatch />}
-            />
+            <Route path='/log' element={<Sign />} />
+            <Route path='/anime/:id/episodes' element={<AnimeWatch />} />
           </Routes>
         </div>
       </div>

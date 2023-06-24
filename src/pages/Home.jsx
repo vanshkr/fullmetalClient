@@ -9,7 +9,6 @@ import {
 import { Slider } from "../components";
 import Genres from "../components/Genres";
 import { Link } from "react-router-dom";
-import { fields } from "../assets/constants";
 
 const Home = () => {
   const componentArray = [
