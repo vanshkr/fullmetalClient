@@ -5,6 +5,7 @@ import { useLazyGetAnimeByFilterQuery } from "../redux/services/jikanApi";
 import { useEffect } from "react";
 import { TopCardContainer, PagePagination } from "../components";
 import Calendar from "react-calendar";
+import "./styles.css";
 
 import { useLocation } from "react-router-dom";
 
