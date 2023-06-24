@@ -6,22 +6,29 @@ import { useEffect } from "react";
 import { TopCardContainer, PagePagination } from "../components";
 import Calendar from "react-calendar";
 import "./styles.css";
-import { useLocation, useSearchParams, useParams } from "react-router-dom";
+import {
+  useLocation,
+  useSearchParams,
+  useParams,
+  useNavigate,
+} from "react-router-dom";
 
 const Search = () => {
   const location = useLocation();
+  const [searchParams] = useSearchParams();
+
   const getQueryParam = (param) => {
-    const value = new URLSearchParams(location.search).get(param);
+    const value = new URLSearchParams(searchParams).get(param);
     return value ? value : "";
   };
   const [page, setPage] = useState(() => {
-    const pageParam = new URLSearchParams(location.search).get("page");
-    const value = pageParam ? parseInt(pageParam, 10) : 1;
+    const pageParam = new URLSearchParams(searchParams).get("page");
+    const value = parseInt(pageParam, 10);
     return value;
   });
   const [limit, setLimit] = useState("");
   const [type, setType] = useState(() => {
-    const param = new URLSearchParams(location.search).get("type");
+    const param = new URLSearchParams(searchParams).get("type");
 
     return param ? param : "";
   });
@@ -35,14 +42,12 @@ const Search = () => {
   const [start, setStart] = useState(getQueryParam("start"));
   const [end, setEnd] = useState(getQueryParam("end"));
   const [genres, setGenres] = useState(() => {
-    const param = new URLSearchParams(location.search).get("genres");
+    const param = new URLSearchParams(searchParams).get("genres");
     const value = param?.split(",").map(Number);
     return value?.length > 0 ? value : [];
   });
 
   const [visible, setVisible] = useState(false);
-
-  const [searchParams] = useSearchParams();
 
   const [trigger, { data }] = useLazyGetAnimeByFilterQuery();
   useEffect(() => {
@@ -51,7 +56,6 @@ const Search = () => {
 
   useEffect(() => {
     const updatedSearchParams = new URLSearchParams(location.search);
-
     page
       ? updatedSearchParams.set("page", page)
       : updatedSearchParams.delete("page");
@@ -96,7 +100,7 @@ const Search = () => {
       : "";
 
     window.history.replaceState(null, "", search);
-  }, [page, clicked, location.search]);
+  }, [page, clicked, location]);
 
   const dropdownData = [
     {
@@ -131,8 +135,8 @@ const Search = () => {
     },
   ];
 
-  const handleTrigger = () => {
-    trigger([
+  const handleTrigger = async () => {
+    await trigger([
       // Pass your filter data here
       page,
       limit,
@@ -149,8 +153,12 @@ const Search = () => {
     ]);
   };
   const handleSearch = () => {
-    setPage(1);
-    setClicked((prev) => !prev);
+    setPage(() => {
+      return 1;
+    });
+    setClicked((prev) => {
+      return !prev;
+    });
     handleTrigger();
   };
   const handleDropdownChange = (index, value) => {
@@ -184,7 +192,10 @@ const Search = () => {
   };
   const pageCount = data?.pagination?.last_visible_page;
   const handlePageClick = (value) => {
-    setPage(value);
+    setPage(() => {
+      return value;
+    });
+    handleTrigger();
   };
   const [isStartCalendarOpen, setIsStartCalendarOpen] = useState(false);
   const [isEndCalendarOpen, setIsEndCalendarOpen] = useState(false);
@@ -205,20 +216,6 @@ const Search = () => {
     setIsEndCalendarOpen(!isEndCalendarOpen);
   };
 
-  console.log(
-    page,
-    limit,
-    type,
-    score,
-    status,
-    rating,
-    genres,
-    orderBy,
-    sort,
-    letter,
-    start,
-    end
-  );
   return (
     <div className='bg-nobleBlack p-4 w-full'>
       <div className='flex flex-col justify-between bg-metalise rounded-xl'>
