@@ -15,12 +15,9 @@ const Sidebar = () => {
   const [showAllGenres, setShowAllGenres] = useState(false);
   const location = useLocation()?.pathname;
 
-  const { data, error, isFetching, promise, refetch } = useGetAnimeGenresQuery(
-    "",
-    {
-      skip: false,
-    }
-  );
+  const { data, isFetching, refetch } = useGetAnimeGenresQuery("", {
+    skip: false,
+  });
   const genres = data?.data;
 
   const displayedGenres = showAllGenres ? genres : genres?.slice(0, 10);
@@ -36,7 +33,7 @@ const Sidebar = () => {
     }
 
     return () => clearTimeout(timeoutId);
-  }, [data, refetch]);
+  }, [isFetching]);
 
   useEffect(() => {
     function handleClickOutside(event) {

@@ -6,7 +6,7 @@ import { useParams } from "react-router-dom";
 const Genres = () => {
   const [showAllGenres, setShowAllGenres] = useState(false);
 
-  const { data, refetch } = useGetAnimeGenresQuery("", {
+  const { data, refetch, isFetching } = useGetAnimeGenresQuery("", {
     skip: false,
   });
   const genres = data?.data;
@@ -22,7 +22,7 @@ const Genres = () => {
     }
 
     return () => clearTimeout(timeoutId);
-  }, [data, refetch]);
+  }, [isFetching, refetch]);
 
   const toggleGenresVisibility = () => {
     setShowAllGenres(!showAllGenres);

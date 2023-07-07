@@ -5,9 +5,7 @@ import { TopCardContainer, PagePagination } from "../components";
 
 const MostFavorite = () => {
   const [pageNumber, setPageNumber] = useState(1);
-  const { data } = useGetTopAnimeByTypeQuery(["favorite", pageNumber, 25], {
-    skip: false,
-  });
+  const { data } = useGetTopAnimeByTypeQuery(["favorite", pageNumber, 25]);
   const pageCount = data?.pagination?.last_visible_page;
 
   const handlePageClick = (value) => {
@@ -22,6 +20,7 @@ const MostFavorite = () => {
         <div className='text-white flex  justify-center items-center  '>
           <PagePagination
             pageCount={pageCount}
+            value={pageNumber}
             onPageChange={handlePageClick}
           />
         </div>

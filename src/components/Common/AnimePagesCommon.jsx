@@ -21,6 +21,7 @@ const AnimePagesCommon = ({ path, heading }) => {
         </div>
         <div className='text-white flex  justify-center items-center  '>
           <PagePagination
+            value={pageNumber}
             pageCount={pageCount}
             onPageChange={handlePageClick}
           />

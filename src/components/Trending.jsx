@@ -36,16 +36,15 @@ const Trending = () => {
                   key={anime?.mal_id}
                 >
                   <div className='w-full h-full flex '>
-                    <div className='bg-gradient-to-t from-black to-greyHeather w-10 h-full flex flex-col justify-end'>
+                    <div className=' bg-gradient-to-t from-black to-greyHeather w-10 h-full flex flex-col justify-end'>
                       <div
-                        className='text-nonChalantWhite mb-4 md:text-xl text-sm'
+                        className='text-nonChalantWhite truncate  mb-4 md:text-xl text-sm'
                         style={{
                           display: "-webkit-box",
                           WebkitBoxOrient: "vertical",
                           WebkitLineClamp: "1",
                           overflow: "hidden",
                           writingMode: "vertical-rl",
-
                           transform: "rotate(180deg)",
                         }}
                       >

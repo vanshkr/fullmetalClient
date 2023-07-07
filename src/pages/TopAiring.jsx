@@ -2,29 +2,16 @@ import { useGetTopAnimeByTypeQuery } from "../redux/services/jikanApi";
 import Genres from "../components/Genres";
 import { useEffect, useState } from "react";
 import { TopCardContainer, PagePagination } from "../components";
-import { useParams, useLocation } from "react-router-dom";
 
 const TopAiring = () => {
   const [pageNumber, setPageNumber] = useState(1);
-  const { data, isFetching, refetch } = useGetTopAnimeByTypeQuery(
-    ["airing", pageNumber, 25],
-    {
-      skip: false,
-    }
-  );
+  const { data, isFetching, refetch } = useGetTopAnimeByTypeQuery([
+    "airing",
+    pageNumber,
+    25,
+  ]);
 
-  console.log(useParams());
   const pageCount = data?.pagination?.last_visible_page;
-  useEffect(() => {
-    let timeoutId;
-    if (data === undefined) {
-      timeoutId = setTimeout(() => {
-        refetch();
-      }, 5000);
-    }
-
-    return () => clearTimeout(timeoutId);
-  }, [data, refetch]);
 
   const handlePageClick = (value) => {
     setPageNumber(value);
