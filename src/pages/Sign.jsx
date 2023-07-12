@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useLogInMutation, useRegisterMutation } from "../redux/services/backendApi";
+import {GiCrossedSabres} from "react-icons/gi";
 import jwt_decode from 'jwt-decode';
 
 
@@ -14,7 +15,7 @@ const Login = () => {
   const [postLogInfo] = useLogInMutation();
   const [postRegInfo] = useRegisterMutation();
   const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
-  console.log(clientId)
+
 
   useEffect(() => {
     google.accounts.id.initialize({
@@ -23,14 +24,15 @@ const Login = () => {
     });
     google.accounts.id.renderButton(
       document.getElementById("signInDiv"), {
-      theme: "outline", size: "large", shape: "pill"
+      theme: "outline", size: "large", shape: "pill",
+     
     }
 
 
     );
     google.accounts.id.prompt();
   }, [])
-
+  console.log(formData);
   const navigate = useNavigate();
   const handleClose = () => {
     setIsOpen(false);
@@ -45,6 +47,7 @@ const Login = () => {
     else {
       postLogInfo(formData);
     }
+    navigate(-1);
     
   }
 
@@ -72,23 +75,10 @@ const Login = () => {
           {signUpClicked ? "Create an Account" : "Log In"}
         </h1>
         <button
-          className='relative -top-10  text-white hover:text-gray-300'
+          className='relative -top-10  text-drySeedlings '
           onClick={handleClose}
         >
-          <svg
-            xmlns='http://www.w3.org/2000/svg'
-            className='h-6 w-6'
-            fill='none'
-            viewBox='0 0 24 24'
-            stroke='currentColor'
-          >
-            <path
-              strokeLinecap='round'
-              strokeLinejoin='round'
-              strokeWidth={2}
-              d='M6 18L18 6M6 6l12 12'
-            />
-          </svg>
+          <GiCrossedSabres/>
         </button>
         <form className='mt-6' onSubmit={handleSubmit}>
           {signUpClicked ? (
@@ -103,6 +93,7 @@ const Login = () => {
                 name="fullName"
                 type='text'
                 onChange={handleChange}
+                value={formData.fullName}
                 className='block w-full px-4 py-2 mt-2 text-drySeedlings bg-metalise border rounded-md focus:border-chineseGreen focus:ring-greenDynasty focus:outline-none focus:ring focus:ring-opacity-40'
               />
             </div>
@@ -118,6 +109,7 @@ const Login = () => {
               onChange={handleChange}
               name='email'
               type='email'
+              value={formData.email}
               className='block w-full px-4 py-2 mt-2 text-drySeedlings bg-metalise border rounded-md focus:border-chineseGreen focus:ring-greenDynasty focus:outline-none focus:ring focus:ring-opacity-40'
             />
           </div>
@@ -132,6 +124,7 @@ const Login = () => {
               onChange={handleChange}
               name="password"
               type='password'
+              value={formData.password}
               className='block w-full px-4 py-2 mt-2 text-drySeedlings bg-metalise border rounded-md focus:border-chineseGreen focus:ring-greenDynasty focus:outline-none focus:ring focus:ring-opacity-40'
             />
           </div>
@@ -147,6 +140,7 @@ const Login = () => {
                 name="confirmPassword"
                 type='password'
                 onChange={handleChange}
+                value={formData.confirmPassword}
                 className='block w-full px-4 py-2 mt-2 text-drySeedlings bg-metalise border rounded-md focus:border-chineseGreen focus:ring-greenDynasty focus:outline-none focus:ring focus:ring-opacity-40'
               />
             </div>
@@ -163,16 +157,16 @@ const Login = () => {
         <div className='relative flex items-center justify-center w-full mt-6 border border-t'>
           <div className='absolute px-5 bg-white'>Or</div>
         </div>
-        <div className='flex mt-4 gap-x-2'>
-          <button
+        <div className='flex mt-4 gap-x-2' >
+          <div
             id='signInDiv'
             onClick={handleGoogleLogin}
-            type='button'
-            className='flex  items-center justify-center w-full '
-
+            
+            className='flex  items-center justify-center w-full  '
+            
           >
-
-          </button>
+          
+          </div>
         </div>
 
 

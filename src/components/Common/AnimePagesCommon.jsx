@@ -10,6 +10,7 @@ const AnimePagesCommon = ({ path, heading }) => {
     skip: false,
   });
   const pageCount = data?.pagination?.last_visible_page;
+  const animeArr = data?.data;
   const handlePageClick = (value) => {
     setPageNumber(value);
   };
@@ -17,7 +18,7 @@ const AnimePagesCommon = ({ path, heading }) => {
     <div className=' grid xl:grid-cols-12 md:mx-0 mx-3'>
       <div className=' xl:col-span-9 mb-4'>
         <div className=''>
-          <TopCardContainer containerName={heading} data={data} />
+          <TopCardContainer containerName={heading} data={animeArr} />
         </div>
         <div className='text-white flex  justify-center items-center  '>
           <PagePagination

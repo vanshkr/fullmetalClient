@@ -8,9 +8,11 @@ const CardContainer = ({ containerName, newArr, data }) => {
         <h3 className='font-semibold text-xl md:text-3xl text-drySeedlings'>
           {containerName}
         </h3>
-        <Link className='text-greyHeather md:mt-4 mt-2  text-sm font-semibold cursor-pointer ml-auto'>
-          View more &gt;
-        </Link>
+        {containerName === "Latest Episodes" ? (
+          <Link className='text-greyHeather md:mt-4 mt-2  text-sm font-semibold cursor-pointer ml-auto'>
+            View more &gt;
+          </Link>
+        ) : undefined}
       </div>
 
       <div className=' w-full mt-6 justify-center items-center  grid xl:grid-cols-4 md:grid-cols-3 grid-cols-2 md:gap-6 gap-3'>

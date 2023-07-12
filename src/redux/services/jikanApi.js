@@ -42,6 +42,10 @@ export const jikanApi = createApi({
     getAnimeByGenre: builder.query({
       query: (genreId) => `/anime?genres=${genreId}&sfw&unapproved`,
     }),
+    getAnimeByRecommendation: builder.query({
+      query: (animeId) => `/anime/${animeId}/recommendations`,
+    }),
+
     getAnimeByFilter: builder.query({
       query: ([
         page,
@@ -118,6 +122,7 @@ export const jikanApi = createApi({
 
 export const {
   useGetAnimeDetailsQuery,
+  useGetAnimeByRecommendationQuery,
   useGetTopAnimeByTypeQuery,
   useGetWatchRecentEpisodesQuery,
   useGetActorsDetailsQuery,

@@ -6,9 +6,11 @@ import {
 import { AnimeDetailsCommon } from "../components";
 import useRelatedArr from "../customhooks/useRelatedArr";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { FaPlayCircle, FaPlus } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { add, remove } from "../redux/features/watchlistSlice";
 
 const AnimeDetails = () => {
   const { animeId: id } = useParams();
@@ -25,7 +27,53 @@ const AnimeDetails = () => {
   const synopsis = data?.data?.synopsis;
   const slicedSynopsis = synopsis?.slice(0, 300);
   const restSlicedSynopsis = synopsis?.slice(300);
+  const [selectedOption, setSelectedOption] = useState("");
+  const [isEditing, setIsEditing] = useState(false);
+  const dropdownRef = useRef(null);
+  const dispatch = useDispatch();
+  const watchlist = useSelector((state) => state.watchlist);
 
+  const handleAdd = useCallback(
+    (category, item) => dispatch(add({ category, item })),
+    [dispatch]
+  );
+  const handleRemove = useCallback(
+    (category, item) => dispatch(remove({ category, item })),
+    [dispatch]
+  );
+
+  const handleOptionChange = (option) => {
+    setSelectedOption(option);
+    setIsEditing(false);
+  };
+
+  const handleRemoveOption = () => {
+    setSelectedOption("");
+    setIsEditing(false);
+  };
+
+  const handleButtonClick = () => {
+    setIsEditing(!isEditing);
+  };
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        event.target.id !== "watch-button" &&
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target)
+      ) {
+        setIsEditing(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+  console.log(watchlist);
   return (
     <div className='md:flex-row flex-col bg-stretchLimo h-fit w-full'>
       <div className=' h-full'>
@@ -69,15 +117,98 @@ const AnimeDetails = () => {
                       </Link>
                     </button>
 
-                    <button className='bg-white text-black py-2 px-5  rounded-full  mx-auto'>
-                      <Link
-                        className='flex justify-center items-center '
-                        to={`/anime-details/${id}/full`}
+                    <div className='relative inline-block mx-auto text-left'>
+                      <button
+                        className='bg-white text-black py-2 px-5 rounded-full mx-auto'
+                        onClick={handleButtonClick}
                       >
-                        <FaPlus className='mr-2 text-xl md:text-2xl' />
-                        <p className='text-md md:text-lg'>Add to List</p>
-                      </Link>
-                    </button>
+                        <span className='flex justify-center items-center'>
+                          <FaPlus className='mr-2 text-xl md:text-2xl' />
+                          <p id='watch-button' className='text-md md:text-lg'>
+                            {selectedOption ? "Edit Watchlist" : "Add to List"}
+                          </p>
+                        </span>
+                      </button>
+                      {isEditing && (
+                        <div
+                          ref={dropdownRef}
+                          className='origin-top-right  absolute right-0 mt-2 w-full rounded-lg shadow-xl bg-white ring-1 ring-black ring-opacity-5 focus:outline-none'
+                        >
+                          <div
+                            className='py-1'
+                            role='menu'
+                            aria-orientation='vertical'
+                          >
+                            <button
+                              className={`${
+                                selectedOption === "Watching"
+                                  ? "bg-gray-200 "
+                                  : ""
+                              }  block px-4 py-2 text-sm  text-gray-700 w-full text-left hover:bg-gray-200`}
+                              role='menuitem'
+                              onClick={() => handleOptionChange("Watching")}
+                            >
+                              Watching
+                            </button>
+                            <button
+                              className={`${
+                                selectedOption === "Plan to Watch"
+                                  ? "bg-gray-200"
+                                  : ""
+                              } block px-4 py-2 text-sm text-gray-700 w-full text-left`}
+                              role='menuitem'
+                              onClick={() =>
+                                handleOptionChange("Plan to Watch")
+                              }
+                            >
+                              Plan to Watch
+                            </button>
+                            <button
+                              className={`${
+                                selectedOption === "On Hold"
+                                  ? "bg-gray-200"
+                                  : ""
+                              } block px-4 py-2 text-sm text-gray-700 w-full text-left`}
+                              role='menuitem'
+                              onClick={() => handleOptionChange("On Hold")}
+                            >
+                              On Hold
+                            </button>
+                            <button
+                              className={`${
+                                selectedOption === "Dropped"
+                                  ? "bg-gray-200"
+                                  : ""
+                              } block px-4 py-2 text-sm text-gray-700 w-full text-left`}
+                              role='menuitem'
+                              onClick={() => handleOptionChange("Dropped")}
+                            >
+                              Dropped
+                            </button>
+                            <button
+                              className={`${
+                                selectedOption === "Completed"
+                                  ? "bg-gray-200"
+                                  : ""
+                              } block px-4 py-2 text-sm text-gray-700 w-full text-left`}
+                              role='menuitem'
+                              onClick={() => handleOptionChange("Completed")}
+                            >
+                              Completed
+                            </button>
+                            {selectedOption && (
+                              <button
+                                className='block px-4 py-2 text-sm text-red-700 w-full text-left'
+                                role='menuitem'
+                                onClick={handleRemoveOption}
+                              >
+                                Remove
+                              </button>
+                            )}
+                          </div>
+                        </div>
+                      )}
+                    </div>
                   </div>
 
                   <div className='my-14 mx-10 hidden md:block'>
@@ -147,13 +278,15 @@ const AnimeDetails = () => {
           </div>
         </div>
         {
-          <AnimeDetailsCommon
-            newArr={newArr}
-            path={location?.pathname}
-            value={value}
-            imgUrl={imgUrl}
-            data={data}
-          />
+          <div className='w-full'>
+            <AnimeDetailsCommon
+              newArr={newArr}
+              path={location?.pathname}
+              value={value}
+              imgUrl={imgUrl}
+              data={data}
+            />
+          </div>
         }
       </div>
     </div>

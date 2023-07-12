@@ -1,7 +1,7 @@
 import { TopAnimeCard } from "..";
 
 const TopCardContainer = ({ containerName, data }) => {
-  const arr = data?.data;
+  const arr = data;
   return (
     <div className='w-full flex flex-col mt-4 '>
       <div className='w-full '>

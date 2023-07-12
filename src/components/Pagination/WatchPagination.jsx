@@ -5,6 +5,7 @@ const WatchPagination = ({ animeId, data, onPageChange, onEpisodeChange }) => {
   const itemsPerPage = data?.data?.length;
   const initialItems = useRef(100);
   const totalPages = data?.pagination?.last_visible_page;
+ 
 
   const handlePageChange = (page) => {
     onPageChange(page);

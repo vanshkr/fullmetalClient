@@ -1,5 +1,3 @@
-import { useGetAnimeDetailsQuery } from "../redux/services/jikanApi";
-
 const useRelatedArr = (arr) => {
   const newArr = [];
   arr?.map((items) => {

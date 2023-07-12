@@ -1,6 +1,8 @@
 import { Link } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 const AnimeCard = ({ anime }) => {
+  const { pathname } = useLocation();
   return (
     <div className='flex  justify-between flex-col lg:w-52 w-32 md:w-48 lg:h-96 md:h-80 h-64 bg-stretchLimo bg-opacity-80 animate-slideup '>
       <div className='relative cursor-pointer w-full md:h-64 lg:h-80 h-52 group'>

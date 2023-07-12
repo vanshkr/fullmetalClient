@@ -3,7 +3,7 @@ module.exports = {
     browser: true,
     es2022: true,
   },
-  extends: ["eslint:recommended", "plugin:prettier/recommended"],
+  extends: ["eslint:recommended", "plugin:airbnb/recommended"],
   parserOptions: {
     ecmaFeatures: {
       jsx: true,
