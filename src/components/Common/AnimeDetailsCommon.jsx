@@ -96,7 +96,7 @@ const AnimeDetailsCommon = ({ newArr, path, imgUrl, value, data }) => {
             </h1>
             <div className='grid gap-2 grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 '>
               {promos?.map((promo) => (
-                <div className='flex flex-col w-fit '>
+                <div className='flex flex-col w-fit h-auto '>
                   <div
                     className='relative cursor-pointer'
                     onClick={() => openModal(promo.trailer.embed_url)}
@@ -111,7 +111,7 @@ const AnimeDetailsCommon = ({ newArr, path, imgUrl, value, data }) => {
                     <div className='absolute top-0 left-0 w-full h-full flex items-center justify-center opacity-0 transition-opacity duration-300 hover:opacity-100'>
                       <FaPlay size={32} text-drySeedlings />
                     </div>
-                    <p className='bottom-0 left-0 w-full p-2 bg-nobleBlack text-md text-white truncate hover:text-drySeedlings'>
+                    <p className='absolute bottom-0 left-0 w-full p-1 bg-nobleBlack text-base text-white truncate hover:text-drySeedlings'>
                       {promo?.title}
                     </p>
                   </div>
@@ -153,14 +153,16 @@ const AnimeDetailsCommon = ({ newArr, path, imgUrl, value, data }) => {
           </div>
         </div>
       </div>
-      {isModalOpen && (
-        <div className='fixed top-0 left-0 w-screen h-screen flex justify-center items-center bg-black bg-opacity-50'>
-          <div className='bg-white p-4'>
-            <VideoModal videoURL={videoLink} />
-            <button onClick={closeModal}>Close</button>
+      <div>
+        {isModalOpen && (
+          <div className='fixed top-0 left-0 w-screen h-screen flex justify-center items-center bg-black bg-opacity-50'>
+            <div className='bg-white p-4'>
+              <VideoModal videoURL={videoLink} />
+              <button onClick={closeModal}>Close</button>
+            </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </>
   );
 };
