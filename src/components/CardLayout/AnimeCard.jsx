@@ -23,7 +23,7 @@ const AnimeCard = ({ anime }) => {
         />
       </div>
       <div className='md:m-4 m-2'>
-        <h3 className=' text-md text-white truncate hover:text-drySeedlings'>
+        <h3 className='text-md text-white truncate hover:text-drySeedlings'>
           <Link to={`/anime/${anime?.entry?.mal_id}/full`}>
             {anime?.entry?.title}
           </Link>

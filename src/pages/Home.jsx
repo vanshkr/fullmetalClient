@@ -54,7 +54,7 @@ const Home = () => {
           );
         })}
       </div>
-      <div className='flex xl:flex-row flex-col bg-nobleBlack mb-10'>
+      <div className='flex xl:flex-row flex-col bg-nobleBlack mb-8'>
         <div className='xl:w-[70%]  px-2 '>
           <LatestEpisodes />
         </div>

@@ -14,7 +14,7 @@ const AnimeWatch = () => {
   const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
   const [pageNumber, setPageNumber] = useState(1);
 
-  const { id } = useParams();
+  const { animeId: id } = useParams();
   const { data } = useGetAnimeDetailsQuery(id);
   const arr = data?.data?.relations;
   const newArr = useRelatedArr(arr);

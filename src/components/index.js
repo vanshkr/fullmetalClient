@@ -25,9 +25,13 @@ import TopCardContainer from "./CardLayout/TopCardContainer";
 import Genres from "./Genres";
 import DateDropdown from "./Dropdown/DateDropdown";
 import GenreFilter from "./Dropdown/GenreFilter";
+import VideoModal from "./VideoModal";
+import VideoThumbnail from "./VideoThumbnail";
 
 export {
   CardContainer,
+  VideoModal,
+  VideoThumbnail,
   Genres,
   AnimeDetailsCommon,
   AnimePagesCommon,

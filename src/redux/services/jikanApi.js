@@ -45,6 +45,9 @@ export const jikanApi = createApi({
     getAnimeByRecommendation: builder.query({
       query: (animeId) => `/anime/${animeId}/recommendations`,
     }),
+    getAnimeVideos: builder.query({
+      query: (animeId) => `/anime/${animeId}/videos`,
+    }),
 
     getAnimeByFilter: builder.query({
       query: ([
@@ -123,6 +126,7 @@ export const jikanApi = createApi({
 export const {
   useGetAnimeDetailsQuery,
   useGetAnimeByRecommendationQuery,
+  useGetAnimeVideosQuery,
   useGetTopAnimeByTypeQuery,
   useGetWatchRecentEpisodesQuery,
   useGetActorsDetailsQuery,
