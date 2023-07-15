@@ -12,9 +12,11 @@ import Upcoming from "./Upcoming";
 import MostFavorite from "./MostFavorite";
 import Genre from "./Genre";
 import Sign from "./Sign";
+import RecentlyUpdated from "./RecentlyUpdated";
 
 export {
   AnimeDetails,
+  RecentlyUpdated,
   Home,
   Sign,
   Genre,

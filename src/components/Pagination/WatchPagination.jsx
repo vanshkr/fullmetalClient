@@ -5,7 +5,6 @@ const WatchPagination = ({ animeId, data, onPageChange, onEpisodeChange }) => {
   const itemsPerPage = data?.data?.length;
   const initialItems = useRef(100);
   const totalPages = data?.pagination?.last_visible_page;
- 
 
   const handlePageChange = (page) => {
     onPageChange(page);
@@ -56,14 +55,14 @@ const WatchPagination = ({ animeId, data, onPageChange, onEpisodeChange }) => {
               List of Episodes -
             </div>
 
-            <div className='px-4 cursor-pointer  '>
+            <div className='px-4 cursor-pointer '>
               <select
-                className='py-1 text-white bg-cursedBlack'
+                className='py-1 text-white bg-cursedBlack '
                 onChange={(e) => handlePageChange(Number(e.target.value))}
               >
                 {renderPagination().map((p, i) => {
                   return (
-                    <option className=' text-white' key={i} value={i + 1}>
+                    <option className=' text-white ' key={i} value={i + 1}>
                       {p}
                     </option>
                   );

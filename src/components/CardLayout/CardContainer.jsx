@@ -9,7 +9,10 @@ const CardContainer = ({ containerName, newArr, data }) => {
           {containerName}
         </h3>
         {containerName === "Latest Episodes" ? (
-          <Link className='text-greyHeather md:mt-4 mt-2  text-sm font-semibold cursor-pointer ml-auto'>
+          <Link
+            to={`/recent`}
+            className='text-greyHeather md:mt-4 mt-2  text-sm font-semibold cursor-pointer ml-auto'
+          >
             View more &gt;
           </Link>
         ) : undefined}

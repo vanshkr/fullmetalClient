@@ -55,10 +55,14 @@ const AnimeWatch = () => {
     setCurrentVideoIndex(value - (100 * (pageNumber - 1) + 1));
   };
   const playPreviousVideo = () => {
+    if (currentVideoIndex === 0) return;
     setCurrentVideoIndex((prevIndex) => (prevIndex >= 0 ? prevIndex - 1 : -1));
   };
 
   const playNextVideo = () => {
+    // const value1 = result?.data?.[currentVideoIndex]?.mal_id;
+    // const value2 = result?.pagination?.has_next_page
+    // console.log(value);
     setCurrentVideoIndex((prevIndex) =>
       prevIndex <= 99 ? prevIndex + 1 : 100
     );
@@ -89,14 +93,29 @@ const AnimeWatch = () => {
                   animeId={id}
                 />
               </div>
-              <div className='xl:col-span-9 overflow-auto  xl:order-2 order-1 min-h-[340px]'>
-                <div className='w-full '>
-                  <div ref={playerRef}>
-                    {result?.data?.[currentVideoIndex]?.title}
-                    {result?.data?.[currentVideoIndex]?.mal_id}
+              <div className='xl:col-span-9 overflow-auto   xl:order-2 order-1 min-h-[340px]'>
+                <div className='w-full h-full '>
+                  <div ref={playerRef} className='h-[85%]'>
+                    <div className='w-full h-full'>
+                      <iframe
+                        className='w-full h-full'
+                        src='https://www.youtube.com/embed/S-9fS8X-o_g'
+                        frameborder='0'
+                        allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture'
+                        allowfullscreen
+                      ></iframe>
+                    </div>
                   </div>
-                  <button onClick={playPreviousVideo}>Previous</button>
-                  <button onClick={playNextVideo}>Next</button>
+                  <div className='bg-gray-600 mt-3'>
+                    <div>
+                      <p>{result?.data?.[currentVideoIndex]?.title}</p>
+                      <p>{result?.data?.[currentVideoIndex]?.mal_id}</p>
+                    </div>
+                    <div>
+                      <button onClick={playPreviousVideo}>Previous</button>
+                      <button onClick={playNextVideo}>Next</button>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>

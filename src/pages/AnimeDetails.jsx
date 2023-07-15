@@ -16,7 +16,9 @@ const AnimeDetails = () => {
   const { animeId: id } = useParams();
   const [visible, setVisible] = useState(false);
   const location = useLocation();
-  const { data } = useGetAnimeDetailsQuery(id);
+  const { data, error, isFetching, refetch } = useGetAnimeDetailsQuery(id, {
+    skip: false,
+  });
   const arr = data?.data?.relations;
   const newArr = useRelatedArr(arr);
   const value = useGetActorsDetailsQuery(id);
@@ -73,7 +75,17 @@ const AnimeDetails = () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
-  console.log(watchlist);
+  // console.log(watchlist);
+  useEffect(() => {
+    let timeoutId;
+    if (data === undefined) {
+      timeoutId = setTimeout(() => {
+        refetch();
+      }, 2000);
+    }
+
+    return () => clearTimeout(timeoutId);
+  }, [isFetching]);
   return (
     <div className='md:flex-row flex-col bg-stretchLimo h-fit w-full'>
       <div className=' h-full'>

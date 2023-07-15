@@ -15,7 +15,7 @@ const watchlistSlice = createSlice({
   reducers: {
     add: (state, action) => {
       const { category, item } = action.payload;
-      console.log(category,item);
+      // console.log(category,item);
       state[category].push(item);
     },
     remove: (state, action) => {

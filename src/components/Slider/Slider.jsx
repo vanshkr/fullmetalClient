@@ -59,7 +59,7 @@ const Slider = () => {
                           <Link className='flex justify-center items-center '>
                             <FaPlayCircle className='mr-0.5' />
                             <Link
-                              to='/anime/21/episodes'
+                              to={`/anime/${image.id}/episodes`}
                               className='text-[12px] md:text-[14px] lg:text-base'
                             >
                               Watch Now{" "}
@@ -69,7 +69,7 @@ const Slider = () => {
                         <div className='bg-blackRibbon  text-white py-1 px-3  rounded-full'>
                           <Link
                             className='flex justify-center items-center cursor-pointer '
-                            to={`/anime-details/${image.id}/full`}
+                            to={`/anime/${image.id}/full`}
                           >
                             <p className='text-[12px] md:text-[14px] lg:text-base'>
                               {" "}

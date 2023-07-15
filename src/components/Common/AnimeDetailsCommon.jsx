@@ -41,7 +41,7 @@ const AnimeDetailsCommon = ({ newArr, path, imgUrl, value, data }) => {
 
   useEffect(() => {
     let timeoutId;
-    if (data === undefined) {
+    if (popularData === undefined) {
       timeoutId = setTimeout(() => {
         refetch();
       }, 2000);
@@ -75,7 +75,7 @@ const AnimeDetailsCommon = ({ newArr, path, imgUrl, value, data }) => {
     animeId
   )?.data?.data?.slice(0, 30);
   const promos = videoData?.data?.promo;
-  console.log(promos);
+  // console.log(promos);
   return (
     <>
       <div className='w-full flex lg:flex-row flex-col mt-10 '>
