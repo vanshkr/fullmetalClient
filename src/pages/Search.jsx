@@ -305,7 +305,10 @@ const Search = () => {
 
       <div>
         <div className=''>
-          <TopCardContainer containerName={"Filter Results"} data={data} />
+          <TopCardContainer
+            containerName={"Filter Results"}
+            data={data?.data}
+          />
         </div>
         <div className='text-white flex  justify-center items-center  '>
           <PagePagination

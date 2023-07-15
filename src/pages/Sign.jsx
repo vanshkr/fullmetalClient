@@ -1,12 +1,20 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useLogInMutation, useRegisterMutation } from "../redux/services/backendApi";
-import {GiCrossedSabres} from "react-icons/gi";
-import jwt_decode from 'jwt-decode';
+import {
+  useLogInMutation,
+  useRegisterMutation,
+} from "../redux/services/backendApi";
+import { GiCrossedSabres } from "react-icons/gi";
+import jwt_decode from "jwt-decode";
+import { authenticate, logout } from "../redux/features/userAuthSlice";
+import { useDispatch } from "react-redux";
 
-
-
-const initialState = { fullName: '', email: '', password: '', confirmPassword: '' };
+const initialState = {
+  fullName: "",
+  email: "",
+  password: "",
+  confirmPassword: "",
+};
 
 const Login = () => {
   const [formData, setFormData] = useState(initialState);
@@ -15,24 +23,21 @@ const Login = () => {
   const [postLogInfo] = useLogInMutation();
   const [postRegInfo] = useRegisterMutation();
   const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
+  const dispatch = useDispatch();
 
+  // useEffect(() => {
+  //   google.accounts.id.initialize({
+  //     client_id: clientId,
+  //     callback: handleGoogleLogin,
+  //   });
+  //   google.accounts.id.renderButton(document.getElementById("signInDiv"), {
+  //     theme: "outline",
+  //     size: "large",
+  //     shape: "pill",
+  //   });
+  //   google.accounts.id.prompt();
+  // }, []);
 
-  useEffect(() => {
-    google.accounts.id.initialize({
-      client_id: clientId,
-      callback: handleGoogleLogin
-    });
-    google.accounts.id.renderButton(
-      document.getElementById("signInDiv"), {
-      theme: "outline", size: "large", shape: "pill",
-     
-    }
-
-
-    );
-    google.accounts.id.prompt();
-  }, [])
-  console.log(formData);
   const navigate = useNavigate();
   const handleClose = () => {
     setIsOpen(false);
@@ -40,36 +45,39 @@ const Login = () => {
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     if (signUpClicked) {
-      postRegInfo(formData);
-    }
-    else {
-      postLogInfo(formData);
+      const data = await postRegInfo(formData);
+
+      dispatch(authenticate(data));
+    } else {
+      const data = await postLogInfo(formData);
+
+      if (data?.error) alert(data?.error?.data?.message, "message: ");
+      else dispatch(authenticate(data));
     }
     navigate(-1);
-    
-  }
+  };
 
   const switchMode = () => {
     setFormData(initialState);
     setSignUpClicked((prevIsSignup) => !prevIsSignup);
-    
   };
-  const handleGoogleLogin = (response) => {
-    // Handle the Google login response here
-    console.log("Google login successful:", response);
-    console.log(response);
-    const userObject = jwt_decode(response.credential);
-    console.log(userObject,"userObject");
-    
-  };
-  const handleChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
+  // const handleGoogleLogin = (response) => {
+  //   // Handle the Google login response here
+  //   console.log("Google login successful:", response);
+  //   console.log(response);
+  //   const userObject = jwt_decode(response.credential);
+  //   console.log(userObject, "userObject");
+  // };
+  const handleChange = (e) =>
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   return (
     <div className='relative flex flex-col justify-center min-h-screen overflow-hidden'>
       <div
-        className={`w-full p-6 m-auto bg-metalise rounded-md shadow-md md:max-w-md ${isOpen ? "" : "hidden"
-          }`}
+        className={`w-full p-6 m-auto bg-metalise rounded-md shadow-md md:max-w-md ${
+          isOpen ? "" : "hidden"
+        }`}
       >
         <h1 className='text-3xl font-semibold text-center text-drySeedlings '>
           {signUpClicked ? "Create an Account" : "Log In"}
@@ -78,11 +86,11 @@ const Login = () => {
           className='relative -top-10  text-drySeedlings '
           onClick={handleClose}
         >
-          <GiCrossedSabres/>
+          <GiCrossedSabres />
         </button>
         <form className='mt-6' onSubmit={handleSubmit}>
           {signUpClicked ? (
-            <div className='mb-2'  >
+            <div className='mb-2'>
               <label
                 for='full-name'
                 className='block text-sm font-semibold text-white'
@@ -90,7 +98,7 @@ const Login = () => {
                 Full Name
               </label>
               <input
-                name="fullName"
+                name='fullName'
                 type='text'
                 onChange={handleChange}
                 value={formData.fullName}
@@ -122,7 +130,7 @@ const Login = () => {
             </label>
             <input
               onChange={handleChange}
-              name="password"
+              name='password'
               type='password'
               value={formData.password}
               className='block w-full px-4 py-2 mt-2 text-drySeedlings bg-metalise border rounded-md focus:border-chineseGreen focus:ring-greenDynasty focus:outline-none focus:ring focus:ring-opacity-40'
@@ -137,7 +145,7 @@ const Login = () => {
                 Confirm Password
               </label>
               <input
-                name="confirmPassword"
+                name='confirmPassword'
                 type='password'
                 onChange={handleChange}
                 value={formData.confirmPassword}
@@ -145,31 +153,25 @@ const Login = () => {
               />
             </div>
           ) : null}
-          <a href='#' className='text-xs text-chineseGreen hover:underline'>
+          {/* <a href='#' className='text-xs text-chineseGreen hover:underline'>
             Forget Password?
-          </a>
+          </a> */}
           <div className='mt-6'>
             <button className='w-full font-bold px-4 py-2 tracking-wide text-metalise transition-colors duration-200 transform bg-drySeedlings rounded-md hover:bg-chineseGreen focus:outline-none focus:bg-chineseGreen'>
               {signUpClicked ? "Register" : "Log In"}
             </button>
           </div>
         </form>
-        <div className='relative flex items-center justify-center w-full mt-6 border border-t'>
+        {/* <div className='relative flex items-center justify-center w-full mt-6 border border-t'>
           <div className='absolute px-5 bg-white'>Or</div>
         </div>
-        <div className='flex mt-4 gap-x-2' >
+        <div className='flex mt-4 gap-x-2'>
           <div
             id='signInDiv'
             onClick={handleGoogleLogin}
-            
             className='flex  items-center justify-center w-full  '
-            
-          >
-          
-          </div>
-        </div>
-
-
+          ></div>
+        </div> */}
 
         <p className='mt-8 text-xs font-light text-center text-white '>
           {" "}
