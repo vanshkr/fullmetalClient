@@ -30,7 +30,7 @@ const Genre = () => {
     <div className=' grid xl:grid-cols-12 md:mx-0 mx-3'>
       <div className=' xl:col-span-9 mb-4'>
         <div className=''>
-          <TopCardContainer containerName={genre.genreName} data={data} />
+          <TopCardContainer containerName={genre.genreName} data={data?.data} />
         </div>
         <div className='text-white flex  justify-center items-center  '>
           <PagePagination
