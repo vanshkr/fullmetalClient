@@ -1,24 +1,24 @@
+import { useState, useEffect, useRef, useCallback } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useParams, useLocation } from "react-router-dom";
+import { FaPlayCircle, FaPlus } from "react-icons/fa";
+import { Link } from "react-router-dom";
+
 import {
   useGetAnimeDetailsQuery,
   useGetActorsDetailsQuery,
 } from "../redux/services/jikanApi";
+import { add, remove } from "../redux/features/watchlistSlice";
 import { AnimeDetailsCommon } from "../components";
 import useRelatedArr from "../customhooks/useRelatedArr";
 
-import { useState, useEffect, useRef, useCallback } from "react";
-import { FaPlayCircle, FaPlus } from "react-icons/fa";
-import { Link } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { add, remove } from "../redux/features/watchlistSlice";
+import { options } from "../assets/constants";
 
 const AnimeDetails = () => {
   const { animeId: id } = useParams();
   const [visible, setVisible] = useState(false);
   const location = useLocation();
-  const { data, error, isFetching, refetch } = useGetAnimeDetailsQuery(id, {
-    skip: false,
-  });
+  const { data } = useGetAnimeDetailsQuery(id);
   const arr = data?.data?.relations;
   const newArr = useRelatedArr(arr);
   const value = useGetActorsDetailsQuery(id);
@@ -39,6 +39,7 @@ const AnimeDetails = () => {
     (category, item) => dispatch(add({ category, item })),
     [dispatch]
   );
+
   const handleRemove = useCallback(
     (category, item) => dispatch(remove({ category, item })),
     [dispatch]
@@ -75,22 +76,16 @@ const AnimeDetails = () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
-  // console.log(watchlist);
-  useEffect(() => {
-    let timeoutId;
-    if (data === undefined) {
-      timeoutId = setTimeout(() => {
-        refetch();
-      }, 2000);
-    }
 
-    return () => clearTimeout(timeoutId);
-  }, [isFetching]);
+  const prevOption = selectedOption?.replace(/\s/g, "")?.toLowerCase();
+
+  console.log(watchlist);
+
   return (
     <div className='md:flex-row flex-col bg-stretchLimo h-fit w-full'>
-      <div className=' h-full'>
+      <div className='h-full'>
         <div className='h-full w-full relative'>
-          <div className='h-full absolute inset-0 overflow-hidden '>
+          <div className='h-full absolute inset-0 overflow-hidden'>
             <div
               className='bg-cover bg-no-repeat bg-center h-full w-[480px]'
               style={{
@@ -101,7 +96,7 @@ const AnimeDetails = () => {
               }}
             ></div>
           </div>
-          <div className='grid md:grid-cols-10 text-white relative '>
+          <div className='grid md:grid-cols-10 text-white relative'>
             <div className='xl:col-span-2 md:col-span-3'>
               <div className='md:top-20 top-10 mx-auto relative xl:w-56 md:w-48 w-44'>
                 <div className='w-full h-full'>
@@ -112,7 +107,7 @@ const AnimeDetails = () => {
                 </div>
               </div>
             </div>
-            <div className=' xl:col-span-6 md:col-span-7  mt-96 md:mt-20  min-h-[150px] md:min-h-[450px]'>
+            <div className='xl:col-span-6 md:col-span-7 mt-96 md:mt-20 min-h-[150px] md:min-h-[450px]'>
               <div>
                 <div className='text-justify'>
                   <div className='text-center text-3xl md:text-4xl'>
@@ -121,7 +116,7 @@ const AnimeDetails = () => {
                   <div className='m-10 flex flex-col gap-y-6 md:flex-row justify-center font-bold'>
                     <button className='bg-drySeedlings text-black py-2 px-5 rounded-full mx-auto md:mr-4'>
                       <Link
-                        className='flex justify-center items-center '
+                        className='flex justify-center items-center'
                         to={`/anime/${id}/episodes`}
                       >
                         <FaPlayCircle className='mr-2 text-xl md:text-2xl' />
@@ -144,75 +139,47 @@ const AnimeDetails = () => {
                       {isEditing && (
                         <div
                           ref={dropdownRef}
-                          className='origin-top-right  absolute right-0 mt-2 w-full rounded-lg shadow-xl bg-white ring-1 ring-black ring-opacity-5 focus:outline-none'
+                          className='origin-top-right absolute right-0 mt-2 w-full rounded-lg shadow-xl bg-white ring-1 ring-black ring-opacity-5 focus:outline-none'
                         >
                           <div
                             className='py-1'
                             role='menu'
                             aria-orientation='vertical'
                           >
-                            <button
-                              className={`${
-                                selectedOption === "Watching"
-                                  ? "bg-gray-200 "
-                                  : ""
-                              }  block px-4 py-2 text-sm  text-gray-700 w-full text-left hover:bg-gray-200`}
-                              role='menuitem'
-                              onClick={() => handleOptionChange("Watching")}
-                            >
-                              Watching
-                            </button>
-                            <button
-                              className={`${
-                                selectedOption === "Plan to Watch"
-                                  ? "bg-gray-200"
-                                  : ""
-                              } block px-4 py-2 text-sm text-gray-700 w-full text-left`}
-                              role='menuitem'
-                              onClick={() =>
-                                handleOptionChange("Plan to Watch")
-                              }
-                            >
-                              Plan to Watch
-                            </button>
-                            <button
-                              className={`${
-                                selectedOption === "On Hold"
-                                  ? "bg-gray-200"
-                                  : ""
-                              } block px-4 py-2 text-sm text-gray-700 w-full text-left`}
-                              role='menuitem'
-                              onClick={() => handleOptionChange("On Hold")}
-                            >
-                              On Hold
-                            </button>
-                            <button
-                              className={`${
-                                selectedOption === "Dropped"
-                                  ? "bg-gray-200"
-                                  : ""
-                              } block px-4 py-2 text-sm text-gray-700 w-full text-left`}
-                              role='menuitem'
-                              onClick={() => handleOptionChange("Dropped")}
-                            >
-                              Dropped
-                            </button>
-                            <button
-                              className={`${
-                                selectedOption === "Completed"
-                                  ? "bg-gray-200"
-                                  : ""
-                              } block px-4 py-2 text-sm text-gray-700 w-full text-left`}
-                              role='menuitem'
-                              onClick={() => handleOptionChange("Completed")}
-                            >
-                              Completed
-                            </button>
+                            {options.map((option) => (
+                              <button
+                                className={`${
+                                  selectedOption === option
+                                    ? "bg-gray-200 "
+                                    : ""
+                                }  block px-4 py-2 text-sm text-gray-700 w-full text-left hover:bg-gray-200`}
+                                role='menuitem'
+                                onClick={() => {
+                                  const value = option
+                                    ?.replace(/\s/g, "")
+                                    ?.toLowerCase();
+                                  if (
+                                    !prevOption ||
+                                    prevOption !== selectedOption
+                                  ) {
+                                    prevOption && handleRemove(prevOption, id);
+                                    handleAdd(value, id);
+                                    handleOptionChange(option);
+                                  }
+                                }}
+                              >
+                                {option}
+                              </button>
+                            ))}
+
                             {selectedOption && (
                               <button
                                 className='block px-4 py-2 text-sm text-red-700 w-full text-left'
                                 role='menuitem'
-                                onClick={handleRemoveOption}
+                                onClick={() => {
+                                  handleRemove(prevOption, id);
+                                  handleRemoveOption();
+                                }}
                               >
                                 Remove
                               </button>
@@ -237,16 +204,16 @@ const AnimeDetails = () => {
               </div>
             </div>
 
-            <div className='bg-[rgba(37,38,41,0.3)] xl:col-span-2  md:col-span-10 p-5 py-10 relative'>
+            <div className='bg-[rgba(37,38,41,0.3)] xl:col-span-2 md:col-span-10 p-5 py-10 relative'>
               <div className='relative xl:top-14 mb-10'>
-                <div className='text-white '>
-                  <div className='md:hidden  block h-36 mb-10'>
+                <div className='text-white'>
+                  <div className='md:hidden block h-36 mb-10'>
                     <h2 className='mb-2'>Overview:</h2>
                     <p className='overflow-y-scroll h-28 text-justify'>
                       {synopsis}
                     </p>
                   </div>
-                  <div className=' p-2'>
+                  <div className='p-2'>
                     <span className='font-bold'>Japanese:</span>{" "}
                     {data?.data?.title_japanese}
                   </div>
