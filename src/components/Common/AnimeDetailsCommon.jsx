@@ -17,7 +17,13 @@ import { FaPlay } from "react-icons/fa";
 const AnimeDetailsCommon = ({ newArr, path, imgUrl, value, data }) => {
   const [relatedAnimeVisible, setRelatedAnimeVisible] = useState(false);
   const { animeId } = useParams();
-  const { data: videoData } = useGetAnimeVideosQuery(animeId);
+  const {
+    data: videoData,
+    isError: isVideosError,
+    refetch: videosRefetch,
+  } = useGetAnimeVideosQuery(animeId, {
+    skip: false,
+  });
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [videoLink, setVideoLink] = useState("");
 
@@ -32,10 +38,16 @@ const AnimeDetailsCommon = ({ newArr, path, imgUrl, value, data }) => {
 
   const {
     data: popularData,
-    error,
-    isFetching,
-    refetch,
+    isError: isPopularError,
+    refetch: popularRefetch,
   } = useGetTopAnimeByTypeQuery(["bypopularity", 1, 10], {
+    skip: false,
+  });
+  const {
+    data: recommendedArr,
+    isError: isRecommendedError,
+    refetch: recommendedFetch,
+  } = useGetAnimeByRecommendationQuery(animeId, {
     skip: false,
   });
 
@@ -43,12 +55,32 @@ const AnimeDetailsCommon = ({ newArr, path, imgUrl, value, data }) => {
     let timeoutId;
     if (popularData === undefined) {
       timeoutId = setTimeout(() => {
-        refetch();
-      }, 2000);
+        popularRefetch(["bypopularity", 1, 10]);
+      }, 3000);
     }
 
     return () => clearTimeout(timeoutId);
-  }, [isFetching]);
+  }, [isPopularError]);
+  useEffect(() => {
+    let timeoutId;
+    if (recommendedArr === undefined) {
+      timeoutId = setTimeout(() => {
+        recommendedFetch(animeId);
+      }, 3000);
+    }
+
+    return () => clearTimeout(timeoutId);
+  }, [isRecommendedError]);
+  useEffect(() => {
+    let timeoutId;
+    if (videoData === undefined) {
+      timeoutId = setTimeout(() => {
+        videosRefetch(animeId);
+      }, 3000);
+    }
+
+    return () => clearTimeout(timeoutId);
+  }, [isVideosError]);
 
   const animeArr = newArr?.map(({ id, animeName }) => (
     <DisplayCard
@@ -71,11 +103,10 @@ const AnimeDetailsCommon = ({ newArr, path, imgUrl, value, data }) => {
   ));
 
   const visibleAnime = relatedAnimeVisible ? animeArr : animeArr.slice(0, 5);
-  const recommendedArr = useGetAnimeByRecommendationQuery(
-    animeId
-  )?.data?.data?.slice(0, 30);
+
   const promos = videoData?.data?.promo;
   // console.log(promos);
+  // console.log(recommendedArr);
   return (
     <>
       <div className='w-full flex lg:flex-row flex-col mt-10 '>
@@ -85,9 +116,9 @@ const AnimeDetailsCommon = ({ newArr, path, imgUrl, value, data }) => {
               Characters & Voice Actors
             </h1>
             <div className=' mt-8 flex flex-wrap justify-between'>
-              {value?.data?.data?.map((detail, i) => (
-                <DetailsCard details={detail} key={i} />
-              ))}
+              {value?.data?.map((detail, i) => {
+                return <DetailsCard details={detail} key={i} />;
+              })}
             </div>
           </div>
           <div className='mx-2 '>
@@ -119,15 +150,17 @@ const AnimeDetailsCommon = ({ newArr, path, imgUrl, value, data }) => {
               ))}
             </div>
           </div>
-          <div className='px-2'>
-            <CardContainer
-              containerName={"Recommended for you"}
-              newArr={recommendedArr}
-            />
-          </div>
+          {recommendedArr?.data.length > 0 ? (
+            <div className='px-2'>
+              <CardContainer
+                containerName={"Recommended for you"}
+                newArr={recommendedArr?.data?.slice(0, 30)}
+              />
+            </div>
+          ) : undefined}
         </div>
         <div className=' lg:w-[25%]  flex-col w-full lg:ml-8 md:ml-4 '>
-          {newArr.length > 0 ? (
+          {newArr?.length > 0 ? (
             <div className='w-full bg-napolean'>
               <h1 className='font-semibold text-xl md:text-3xl text-chineseGreen text-left mx-2 '>
                 Related Anime

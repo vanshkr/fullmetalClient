@@ -9,17 +9,6 @@ import h from "./SliderImages/8.jpg";
 import i from "./SliderImages/9.jpg";
 import j from "./SliderImages/10.jpg";
 
-import A from "./TrendingImages/1.jpg";
-import B from "./TrendingImages/2.jpg";
-import C from "./TrendingImages/3.jpg";
-import D from "./TrendingImages/4.png";
-import E from "./TrendingImages/5.jpg";
-import F from "./TrendingImages/6.png";
-import G from "./TrendingImages/7.jpg";
-import H from "./TrendingImages/8.jpg";
-import I from "./TrendingImages/9.jpg";
-import J from "./TrendingImages/10.jpg";
-
 export const images = [
   {
     id: 50197,
@@ -90,19 +79,6 @@ export const images = [
     url: j,
     desc: "Was it all just a coincidence, or was it inevitable? Ichigo Kurosaki gained the powers of a Soul Reaper through a chance encounter. As a Substitute Soul Reaper, Ichigo became caught in the turmoil of the Soul Society, a place where deceased souls gather. But with help from his friends, Ichigo overcame every challenge to become even stronger. ",
   },
-];
-
-export const trends = [
-  { id: "", title: "", url: A },
-  { id: "", title: "", url: B },
-  { id: "", title: "", url: C },
-  { id: "", title: "", url: D },
-  { id: "", title: "", url: E },
-  { id: "", title: "", url: F },
-  { id: "", title: "", url: G },
-  { id: "", title: "", url: H },
-  { id: "", title: "", url: I },
-  { id: "", title: "", url: J },
 ];
 
 export const clamped = {
@@ -177,4 +153,12 @@ export const ratings = [
   "R - 17+ (violence & profanity)",
   "R+ - Mild Nudity",
   "Rx - Hentai",
+];
+
+export const options = [
+  "Watching",
+  "Plan to Watch",
+  "On Hold",
+  "Dropped",
+  "Completed",
 ];

@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams, useLocation } from "react-router-dom";
+import { useParams, useLocation, useNavigate } from "react-router-dom";
 import { FaPlayCircle, FaPlus } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
@@ -13,28 +13,78 @@ import { AnimeDetailsCommon } from "../components";
 import useRelatedArr from "../customhooks/useRelatedArr";
 
 import { options } from "../assets/constants";
+import { useCreateListMutation } from "../redux/services/backendApi";
 
 const AnimeDetails = () => {
   const { animeId: id } = useParams();
+  const result = useSelector((state) => state.userAuth.userData);
+  const watchlist = useSelector((state) => state.watchlist);
+  const profile = localStorage.getItem("profile");
+
+  const navigate = useNavigate();
   const [visible, setVisible] = useState(false);
   const location = useLocation();
-  const { data } = useGetAnimeDetailsQuery(id);
-  const arr = data?.data?.relations;
+  const {
+    data: animeDetailsData,
+    refetch: animeDetailsRefetch,
+    status: animeDetailsStatus,
+  } = useGetAnimeDetailsQuery(id, {
+    skip: false,
+  });
+  const [createList] = useCreateListMutation();
+  const arr = animeDetailsData?.data?.relations;
   const newArr = useRelatedArr(arr);
-  const value = useGetActorsDetailsQuery(id);
-  const imgUrl = data?.data?.images?.webp?.small_image_url;
-  const genre = data?.data?.genres.map((genres) => genres.name);
-  const studios = data?.data?.studios?.[0]?.name;
-  const producers = data?.data?.producers.map((producers) => producers.name);
-  const synopsis = data?.data?.synopsis;
+  const {
+    data: value,
+    actorsStatus,
+    refetch: actorsFetch,
+  } = useGetActorsDetailsQuery(id, {
+    skip: false,
+  });
+  const imgUrl = animeDetailsData?.data?.images?.webp?.small_image_url;
+  const genre = animeDetailsData?.data?.genres.map((genres) => genres.name);
+  const studios = animeDetailsData?.data?.studios?.[0]?.name;
+  const producers = animeDetailsData?.data?.producers.map(
+    (producers) => producers.name
+  );
+  const synopsis = animeDetailsData?.data?.synopsis;
   const slicedSynopsis = synopsis?.slice(0, 300);
   const restSlicedSynopsis = synopsis?.slice(300);
-  const [selectedOption, setSelectedOption] = useState("");
+  const [selectedOption, setSelectedOption] = useState(() => {
+    let option = "";
+    for (const key in watchlist) {
+      if (watchlist[key].includes(id)) {
+        return key;
+      }
+    }
+    return option;
+  });
+  const refOption = useRef("");
   const [isEditing, setIsEditing] = useState(false);
   const dropdownRef = useRef(null);
   const dispatch = useDispatch();
-  const watchlist = useSelector((state) => state.watchlist);
 
+  useEffect(() => {
+    let timeoutId;
+    if (actorsStatus !== "fulfilled" && value === undefined) {
+      timeoutId = setTimeout(() => {
+        actorsFetch(id);
+      }, 2000);
+    }
+
+    return () => clearTimeout(timeoutId);
+  }, [actorsStatus, value]);
+
+  useEffect(() => {
+    let timeoutId;
+    if (animeDetailsStatus !== "fulfilled" && animeDetailsData === undefined) {
+      timeoutId = setTimeout(() => {
+        animeDetailsRefetch(id);
+      }, 2000);
+    }
+
+    return () => clearTimeout(timeoutId);
+  }, [animeDetailsData, animeDetailsStatus]);
   const handleAdd = useCallback(
     (category, item) => dispatch(add({ category, item })),
     [dispatch]
@@ -46,11 +96,13 @@ const AnimeDetails = () => {
   );
 
   const handleOptionChange = (option) => {
+    refOption.current = option;
     setSelectedOption(option);
     setIsEditing(false);
   };
 
   const handleRemoveOption = () => {
+    refOption.current = "";
     setSelectedOption("");
     setIsEditing(false);
   };
@@ -79,8 +131,22 @@ const AnimeDetails = () => {
 
   const prevOption = selectedOption?.replace(/\s/g, "")?.toLowerCase();
 
-  console.log(watchlist);
+  useEffect(() => {
+    const handleBeforeUnload = (event) => {
+      // Your code to be executed before navigating away or reloading
 
+      createList([{ option: refOption.current, id }, result?.id]);
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+
+    return () => {
+      // Cleanup function to remove the listener when the component is unmounted
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+
+      createList([{ option: refOption.current, id }, result?.id]);
+    };
+  }, [location]);
   return (
     <div className='md:flex-row flex-col bg-stretchLimo h-fit w-full'>
       <div className='h-full'>
@@ -89,7 +155,7 @@ const AnimeDetails = () => {
             <div
               className='bg-cover bg-no-repeat bg-center h-full w-[480px]'
               style={{
-                backgroundImage: `url(${data?.data?.images?.webp?.large_image_url})`,
+                backgroundImage: `url(${animeDetailsData?.data?.images?.webp?.large_image_url})`,
                 filter: "blur(20px)",
                 opacity: "0.5",
                 width: "100%",
@@ -102,7 +168,7 @@ const AnimeDetails = () => {
                 <div className='w-full h-full'>
                   <img
                     className='absolute object-cover'
-                    src={data?.data?.images?.webp?.image_url}
+                    src={animeDetailsData?.data?.images?.webp?.image_url}
                   />
                 </div>
               </div>
@@ -111,7 +177,7 @@ const AnimeDetails = () => {
               <div>
                 <div className='text-justify'>
                   <div className='text-center text-3xl md:text-4xl'>
-                    {data?.data?.titles?.[0]?.title}
+                    {animeDetailsData?.data?.titles?.[0]?.title}
                   </div>
                   <div className='m-10 flex flex-col gap-y-6 md:flex-row justify-center font-bold'>
                     <button className='bg-drySeedlings text-black py-2 px-5 rounded-full mx-auto md:mr-4'>
@@ -126,8 +192,9 @@ const AnimeDetails = () => {
 
                     <div className='relative inline-block mx-auto text-left'>
                       <button
-                        className='bg-white text-black py-2 px-5 rounded-full mx-auto'
+                        className={`bg-white text-black py-2 px-5 rounded-full mx-auto `}
                         onClick={handleButtonClick}
+                        disabled={profile ? false : true}
                       >
                         <span className='flex justify-center items-center'>
                           <FaPlus className='mr-2 text-xl md:text-2xl' />
@@ -167,6 +234,7 @@ const AnimeDetails = () => {
                                     handleOptionChange(option);
                                   }
                                 }}
+                                key={option}
                               >
                                 {option}
                               </button>
@@ -215,30 +283,31 @@ const AnimeDetails = () => {
                   </div>
                   <div className='p-2'>
                     <span className='font-bold'>Japanese:</span>{" "}
-                    {data?.data?.title_japanese}
+                    {animeDetailsData?.data?.title_japanese}
                   </div>
                   <div className='p-2'>
                     <span className='font-bold'>Aired:</span>{" "}
-                    {data?.data?.aired?.["string"]}
+                    {animeDetailsData?.data?.aired?.["string"]}
                   </div>
                   <div className='p-2'>
                     <span className='font-bold'>Duration:</span>{" "}
-                    {data?.data?.duration}
+                    {animeDetailsData?.data?.duration}
                   </div>
                   <div className='p-2'>
                     <span className='font-bold'>Status:</span>{" "}
-                    {data?.data?.status}
+                    {animeDetailsData?.data?.status}
                   </div>
                   <div className='p-2'>
-                    <span className='font-bold'>Rank:</span> {data?.data?.rank}
+                    <span className='font-bold'>Rank:</span>{" "}
+                    {animeDetailsData?.data?.rank}
                   </div>
                   <div className='p-2'>
                     <span className='font-bold'>MAL Score:</span>{" "}
-                    {data?.data?.score}
+                    {animeDetailsData?.data?.score}
                   </div>
                   <div className='p-2'>
                     <span className='font-bold'>Favorites:</span>{" "}
-                    {data?.data?.favorites}
+                    {animeDetailsData?.data?.favorites}
                   </div>
                   <div className='p-2'>
                     <span className='font-bold'>Genres:</span>{" "}
@@ -256,6 +325,7 @@ const AnimeDetails = () => {
             </div>
           </div>
         </div>
+
         {
           <div className='w-full'>
             <AnimeDetailsCommon
@@ -263,7 +333,7 @@ const AnimeDetails = () => {
               path={location?.pathname}
               value={value}
               imgUrl={imgUrl}
-              data={data}
+              data={animeDetailsData}
             />
           </div>
         }

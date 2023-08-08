@@ -22,6 +22,20 @@ export const backendApi = createApi({
         };
       },
     }),
+    logIn: builder.mutation({
+      query: (formData) => ({
+        url: "/user/signin",
+        method: "POST",
+        body: formData,
+      }),
+    }),
+    logIn: builder.mutation({
+      query: (formData) => ({
+        url: "/user/signin",
+        method: "POST",
+        body: formData,
+      }),
+    }),
   }),
 });
 
