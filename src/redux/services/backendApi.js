@@ -1,8 +1,10 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { DateParam } from "use-query-params";
 
 export const backendApi = createApi({
   baseQuery: fetchBaseQuery({
-    baseUrl: "https://fullmetalserver.onrender.com",
+    // baseUrl: "https://fullmetalserver.onrender.com",
+    baseUrl: "http://localhost:3000",
   }),
   endpoints: (builder) => ({
     logIn: builder.mutation({
@@ -14,7 +16,6 @@ export const backendApi = createApi({
     }),
     register: builder.mutation({
       query: (formData) => {
-        // console.log(formData);
         return {
           url: "/user/signup",
           method: "POST",
@@ -22,28 +23,25 @@ export const backendApi = createApi({
         };
       },
     }),
-    logIn: builder.mutation({
-      query: (formData) => ({
-        url: "/user/signin",
-        method: "POST",
-        body: formData,
-      }),
+    createList: builder.mutation({
+      query: ([watchlistData, id]) => {
+        console.log(watchlistData, id, "watchlist from bacend api");
+        return {
+          url: `/watchlist/${id}`,
+          method: "POST",
+          body: watchlistData,
+        };
+      },
     }),
-    logIn: builder.mutation({
-      query: (formData) => ({
-        url: "/user/signin",
-        method: "POST",
-        body: formData,
-      }),
+    getList: builder.query({
+      query: (id) => `/watchlist/${id}`,
     }),
   }),
 });
 
-export const { useLogInMutation, useRegisterMutation } = backendApi;
-
-// export const { usePrefetch } = backendApi.internalHooks;
-
-// export const prefetchEndpoints = () => {
-//   usePrefetch(backendApi.endpoints.signin);
-//   usePrefetch(backendApi.endpoints.signup);
-// };
+export const {
+  useLogInMutation,
+  useRegisterMutation,
+  useCreateListMutation,
+  useLazyGetListQuery,
+} = backendApi;
