@@ -3,8 +3,8 @@ import { DateParam } from "use-query-params";
 
 export const backendApi = createApi({
   baseQuery: fetchBaseQuery({
-    // baseUrl: "https://fullmetalserver.onrender.com",
-    baseUrl: "http://localhost:3000",
+    baseUrl: "https://fullmetalserver.onrender.com",
+    // baseUrl: "http://localhost:3000",
   }),
   endpoints: (builder) => ({
     logIn: builder.mutation({
