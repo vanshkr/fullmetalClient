@@ -133,20 +133,23 @@ const AnimeDetails = () => {
 
   useEffect(() => {
     const handleBeforeUnload = (event) => {
-      // Your code to be executed before navigating away or reloading
+      // Optional: prevent default behavior
+      // event.preventDefault();
 
-      createList([{ option: refOption.current, id }, result?.id]);
+      createList([{ option: refOption.current, resultId: result?.id }, id]);
+
     };
 
     window.addEventListener("beforeunload", handleBeforeUnload);
 
     return () => {
-      // Cleanup function to remove the listener when the component is unmounted
       window.removeEventListener("beforeunload", handleBeforeUnload);
 
-      createList([{ option: refOption.current, id }, result?.id]);
+      createList([{ option: refOption.current, resultId: result?.id }, id]);
+
     };
   }, [location]);
+  
   return (
     <div className='md:flex-row flex-col bg-stretchLimo h-fit w-full'>
       <div className='h-full'>
@@ -213,7 +216,7 @@ const AnimeDetails = () => {
                             role='menu'
                             aria-orientation='vertical'
                           >
-                            {options.map((option) => (
+                            {options?.map((option) => (
                               <button
                                 className={`${
                                   selectedOption === option

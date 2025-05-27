@@ -105,8 +105,6 @@ const AnimeDetailsCommon = ({ newArr, path, imgUrl, value, data }) => {
   const visibleAnime = relatedAnimeVisible ? animeArr : animeArr.slice(0, 5);
 
   const promos = videoData?.data?.promo;
-  // console.log(promos);
-  // console.log(recommendedArr);
   return (
     <>
       <div className='w-full flex lg:flex-row flex-col mt-10 '>
@@ -116,7 +114,7 @@ const AnimeDetailsCommon = ({ newArr, path, imgUrl, value, data }) => {
               Characters & Voice Actors
             </h1>
             <div className=' mt-8 flex flex-wrap justify-between'>
-              {value?.data?.map((detail, i) => {
+              {value?.data?.data?.map((detail, i) => {
                 return <DetailsCard details={detail} key={i} />;
               })}
             </div>

@@ -10,11 +10,24 @@ const initialState = {
 const getUserDataFromLocalStorage = () => {
   const encryptedData = localStorage.getItem("profile");
   if (encryptedData) {
-    const decryptedData = AES.decrypt(encryptedData, encryptionKey).toString(
-      enc.Utf8
-    );
-    return JSON.parse(decryptedData);
+    try {
+      const decrypted = AES.decrypt(encryptedData, encryptionKey);
+      const decryptedStr = decrypted.toString(enc.Utf8);
+
+      if (!decryptedStr) {
+        console.warn(
+          "Decryption failed — possibly due to invalid key or data."
+        );
+        return null;
+      }
+
+      return JSON.parse(decryptedStr);
+    } catch (error) {
+      console.error("Decryption error:", error);
+      return null;
+    }
   }
+
   return null;
 };
 
@@ -24,7 +37,6 @@ const userAuthSlice = createSlice({
   reducers: {
     authenticate: (state, action) => {
       const { data } = action.payload;
-      // console.log(data, "payload");
       const sensitiveData = {
         name: data?.result?.name,
         email: data?.result?.email,
@@ -44,7 +56,6 @@ const userAuthSlice = createSlice({
     },
     loadUserDataFromLocalStorage: (state, action) => {
       const data = getUserDataFromLocalStorage();
-      // console.log(data, "data");
       state.userData = data;
     },
   },

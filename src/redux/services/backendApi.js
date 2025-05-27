@@ -25,7 +25,6 @@ export const backendApi = createApi({
     }),
     createList: builder.mutation({
       query: ([watchlistData, id]) => {
-        console.log(watchlistData, id, "watchlist from bacend api");
         return {
           url: `/watchlist/${id}`,
           method: "POST",

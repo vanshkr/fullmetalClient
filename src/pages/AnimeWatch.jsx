@@ -68,12 +68,12 @@ const AnimeWatch = () => {
     );
   };
   return (
-    <div className='md:flex-row flex-col bg-stretchLimo h-fit w-full '>
-      <div className=' h-full'>
-        <div className='h-full w-full relative'>
-          <div className='h-full absolute inset-0 overflow-hidden '>
+    <div className="md:flex-row flex-col bg-stretchLimo h-fit w-full ">
+      <div className=" h-full">
+        <div className="h-full w-full relative">
+          <div className="h-full absolute inset-0 overflow-hidden ">
             <div
-              className='bg-cover bg-no-repeat bg-center h-full w-[480px]'
+              className="bg-cover bg-no-repeat bg-center h-full w-[480px]"
               style={{
                 backgroundImage: `url(${data?.data?.images?.webp?.large_image_url})`,
                 filter: "blur(20px)",
@@ -82,9 +82,9 @@ const AnimeWatch = () => {
               }}
             ></div>
           </div>
-          <div className='grid text-white relative '>
-            <div className='bg-cursedBlack xl:m-14 relative  min-h-[540px] grid xl:grid-cols-12'>
-              <div className='bg-stretchLimo xl:order-1 order-2 xl:col-span-3'>
+          <div className="grid text-white relative ">
+            <div className="bg-cursedBlack xl:m-14 relative  min-h-[540px] grid xl:grid-cols-12">
+              <div className="bg-stretchLimo xl:order-1 order-2 xl:col-span-3">
                 <WatchPagination
                   data={result}
                   onPageChange={handlePageChange}
@@ -93,20 +93,20 @@ const AnimeWatch = () => {
                   animeId={id}
                 />
               </div>
-              <div className='xl:col-span-9 overflow-auto   xl:order-2 order-1 min-h-[340px]'>
-                <div className='w-full h-full '>
-                  <div ref={playerRef} className='h-[85%]'>
-                    <div className='w-full h-full'>
+              <div className="xl:col-span-9 overflow-auto   xl:order-2 order-1 min-h-[340px]">
+                <div className="w-full h-full ">
+                  <div ref={playerRef} className="h-[85%]">
+                    <div className="w-full h-full">
                       <iframe
-                        className='w-full h-full'
-                        src='https://www.youtube.com/embed/S-9fS8X-o_g'
-                        frameborder='0'
-                        allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture'
+                        className="w-full h-full"
+                        src="https://www.youtube.com/embed/eBMoDTAWhG4?si=7aGr0ZgrMTYELUC0"
+                        frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                         allowfullscreen
                       ></iframe>
                     </div>
                   </div>
-                  <div className='bg-gray-600 mt-3'>
+                  <div className="bg-gray-600 mt-3">
                     <div>
                       <p>{result?.data?.[currentVideoIndex]?.title}</p>
                       <p>{result?.data?.[currentVideoIndex]?.mal_id}</p>
